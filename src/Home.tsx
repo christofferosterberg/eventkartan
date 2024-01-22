@@ -3,12 +3,10 @@ import ListEvents from './ListEvents';
 import { useEffect, useState } from 'react';
 import EventModal from './EventModal';
 import { EventType } from './Event';
+import Map from './Map';
 
 
 function Home() {
-    const style = {
-        backgroundColor: "#cfcfcf"
-    };
 
     const [showModal, setShowModal] = useState(false);
     const [activeEvent, setActiveEvent] = useState<EventType | null>(null);
@@ -35,8 +33,8 @@ function Home() {
                         <Search></Search>
                         <ListEvents onEventClick={handleNewActiveEvent}></ListEvents>
                     </div>
-                    <div className="col-lg" style={style}>
-                        Här kommer det vara en karta
+                    <div className="col-lg">
+                        <Map></Map>
                     </div>
                 </div>
             </div>
