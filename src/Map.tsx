@@ -1,7 +1,12 @@
 import { GoogleMap, LoadScript, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import { useCallback, useState } from 'react';
+import { EventType } from './Event';
 
-function Map() {
+interface MapProps {
+    events: EventType[],
+}
+
+function Map({ events }: MapProps) {
 
     const containerStyle = {
         height: '100%',
@@ -13,10 +18,12 @@ function Map() {
         lng: 11.974560,
     };
 
-    const markers = [
-        { id: 1, position: { lat: 57.708870, lng: 11.974560 }, content: 'Marker 1 Content' },
-        // Add more markers as needed
-    ];
+    // const markers = [
+    //     { id: 1, position: { lat: 57.708870, lng: 11.974560 }, content: 'Marker content' },
+    //     // Add more markers as needed
+    // ];
+
+    // const [markers, setMarkers] = useState<EventType | null>(null);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -39,8 +46,8 @@ function Map() {
 
     const [selectedMarker, setSelectedMarker] = useState<any>(null);
 
-    const handleMarkerClick = (marker: any) => {
-        setSelectedMarker(marker);
+    const handleMarkerClick = (event: any) => {
+        setSelectedMarker(event);
     };
 
     const handleInfoWindowClose = () => {
@@ -55,11 +62,11 @@ function Map() {
             onLoad={onLoad}
             onUnmount={onUnmount}
         >
-            {markers.map((marker) => (
+            {events.map((event) => (
                 <Marker
-                    key={marker.id}
-                    position={marker.position}
-                    onClick={() => handleMarkerClick(marker)}
+                    // key={marker.id}
+                    position={event.position}
+                    onClick={() => handleMarkerClick(event)}
                 // Add any other Marker options as needed
                 />
             ))}
@@ -69,7 +76,7 @@ function Map() {
                     onCloseClick={handleInfoWindowClose}
                 >
                     <div>
-                        <h3>{selectedMarker.content}</h3>
+                        <h3>{selectedMarker.title}</h3>
                     </div>
                 </InfoWindow>
             )}

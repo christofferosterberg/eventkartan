@@ -5,7 +5,11 @@ export interface EventType {
     place: String,
     shortDescription: String,
     book: String,
-    img: string
+    img: string,
+    position: {
+        lat: number,
+        lng: number
+    }
 }
 
 interface EventProps {
