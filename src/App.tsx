@@ -6,9 +6,11 @@ import Admin from './Admin';
 import Home from './Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Auth0Provider } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
 
 function App() {
   // const [count, setCount] = useState(0)
+  // <a className="navbar-brand text-center" href="#">BarLiv</a>
 
   return (
     <Auth0Provider
@@ -18,13 +20,14 @@ function App() {
         redirect_uri: window.location.origin
       }}
     >
-      <nav className="navbar navbar-dark p-2" style={{ backgroundColor: '#F99C2F' }}>
-        <a className="navbar-brand text-center" href="#">Eventkartan</a>
-      </nav>
       <BrowserRouter>
+        <nav className="navbar navbar-dark p-2" style={{ backgroundColor: '#F99C2F' }}>
+            <Link className="navbar-brand text-center" to="/home">BarLiv</Link>
+            <Link className="navbar-brand text-center" to="/admin">Hantera event</Link>
+        </nav>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="admin" element={<Admin />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
       {/* <Home></Home> */}
