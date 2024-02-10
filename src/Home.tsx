@@ -84,15 +84,9 @@ function Home() {
     const handleCloseModal = () => setShowModal(false);
     const handleSaveChanges = () => setShowModal(false);
 
-    // useEffect(() => {
-    //     if (activeEvent) {
-    //         setShowModal(true)
-    //     }
-    // }, [activeEvent]);
-
     return (
         <div>
-            <h1 className='text-center'>Välkommen till BarLiv!</h1>
+            <h1 className='text-center'>Välkommen till BarLivet!</h1>
             <div className="container">
                 <div className="row">
                     <div className="col-sm">

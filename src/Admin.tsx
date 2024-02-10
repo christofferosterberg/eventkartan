@@ -5,6 +5,11 @@ import AdminConsole from './AdminConsole';
 function Admin() {
     const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
+    function handleLogin() {
+        console.log(window.location.origin + window.location.pathname)
+        // loginWithRedirect()
+    }
+
     if (isLoading) {
         return <div>Loading ...</div>;
     }
@@ -16,7 +21,7 @@ function Admin() {
             ) : (
                 <div className='text-center'>
                     <h1>Logga in som företag</h1>
-                    <button onClick={() => loginWithRedirect()}>Logga in</button>
+                    <button onClick={() => handleLogin()}>Logga in</button>
                 </div>
             )}
         </div>
