@@ -2,33 +2,14 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 
 function SignUp() {
-    const { loginWithRedirect } = useAuth0();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
-
-    // const [formData, setFormData] = useState({
-    //     email: '',
-    //     password: ''
-    // });
-
-    // const handleChange = (event:) => {
-    //     const { name, value } = event.target;
-    //     // Update form state with new input value
-    //     setFormData({ ...formData, [name]: value });
-    // };
-
-    //   const handleChange = (event:any) => {
-    //     const { name, value } = event.target;
-    //     console.log(name, value)
-    //     // Update form state with new input value
-    //     setFormData({ ...formData, [name]: value });
-    //   };
+    const navigate = useNavigate();
 
     const handleEmailChange = (event: any) => {
         // console.log(event.target.value)
@@ -42,25 +23,18 @@ function SignUp() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const url = 'https://dev-ni7jkmfx0oybqzdf.us.auth0.com/dbconnections/signup';
-        const clientId = 'N2lQXrnVixNM6vCY5EHNNwCkUrq4j9jo';
-        const postData = {
-            "client_id": clientId,
-            "email": email,
-            "password": password,
-            "connection": "Barlivet-email-password"
-        };
-        axios.post(url, postData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                console.log('Response:', response.data);
-                loginWithRedirect();
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                navigate('/admin')
+                // ...
             })
-            .catch(error => {
-                console.error('Error:', error);
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
             });
     };
 
