@@ -7,6 +7,7 @@ import Home from './Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
+import SignUp from './SignUp';
 
 function App() {
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN
@@ -27,13 +28,14 @@ function App() {
           <BrowserRouter>
             <nav className="navbar navbar-dark p-2" style={{ backgroundColor: '#F99C2F' }}>
               <Link className="navbar-brand text-center" to="/home">BarLivet</Link>
-              <Link className="navbar-brand text-center" to="/admin">Hantera event</Link>
+              <Link className="navbar-brand text-center" to="/admin">För företag</Link>
             </nav>
 
             <Routes>
             <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/registrera" element={<SignUp />} />
             </Routes>
           </BrowserRouter>
         </div>
