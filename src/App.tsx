@@ -14,10 +14,10 @@ function App() {
 
   return (
     <Auth0Provider
-      domain="{yourDomain}"
-      clientId="{yourClientId}"
+      domain="dev-ni7jkmfx0oybqzdf.us.auth0.com"
+      clientId="N2lQXrnVixNM6vCY5EHNNwCkUrq4j9jo"
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin + window.location.pathname
       }}
     >
 
@@ -30,6 +30,7 @@ function App() {
             </nav>
 
             <Routes>
+            <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/admin" element={<Admin />} />
             </Routes>
