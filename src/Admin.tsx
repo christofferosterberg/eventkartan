@@ -6,8 +6,7 @@ function Admin() {
     const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
     function handleLogin() {
-        console.log(window.location.origin + window.location.pathname)
-        // loginWithRedirect()
+        loginWithRedirect()
     }
 
     if (isLoading) {

@@ -9,6 +9,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 
 function App() {
+  // const domain = process.env.REACT_APP_AUTH0_DOMAIN
   // const [count, setCount] = useState(0)
   // <a className="navbar-brand text-center" href="#">BarLiv</a>
 
@@ -17,7 +18,7 @@ function App() {
       domain="dev-ni7jkmfx0oybqzdf.us.auth0.com"
       clientId="N2lQXrnVixNM6vCY5EHNNwCkUrq4j9jo"
       authorizationParams={{
-        redirect_uri: window.location.origin + window.location.pathname
+        redirect_uri: window.location.origin + '/admin'
       }}
     >
 
