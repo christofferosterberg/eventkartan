@@ -48,13 +48,13 @@ function SignUp() {
                             <input type="text" className="form-control" id="staticEmail" placeholder="email@example.com"></input>
                         </div>
                     </div>
-                    <div className="form-group row">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
+                    <div className="form-group row mt-2">
+                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Lösenord</label>
                         <div className="col-sm-10">
                             <input type="password" className="form-control" id="inputPassword" placeholder="Password"></input>
                         </div>
                     </div>
-                    <button type="submit">Registrera</button>
+                    <button className="mt-2" type="submit">Registrera</button>
                 </form>
                 {/* <form onSubmit={handleSubmit} className='d-inline-flex flex-column'>
                     <div>
