@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import EventModal from './EventModal';
 import { EventType } from './Event';
 import Map from './Map';
+import React from 'react';
 
 const events: EventType[] = [
     {
