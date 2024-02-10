@@ -56,18 +56,6 @@ function SignUp() {
                     </div>
                     <button className="mt-2" type="submit">Registrera</button>
                 </form>
-                {/* <form onSubmit={handleSubmit} className='d-inline-flex flex-column'>
-                    <div>
-                        <p>Email:</p>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <p>Lösenord:</p>
-                        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-                    </div> */}
-
-                    
-                {/* </form> */}
             </div>
         </div>
     )

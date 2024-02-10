@@ -39,15 +39,15 @@ function App() {
             </Routes>
           </BrowserRouter>
         </div>
-        <footer className="py-3" style={{ backgroundColor: '#F99C2F' }}>
+        <footer className="py-3 mt-4" style={{ backgroundColor: '#F99C2F' }}>
           <ul className="nav justify-content-center border-bottom pb-3 mb-3">
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Home</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Features</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Pricing</a></li>
+            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Hem</a></li>
+            {/* <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Features</a></li> */}
+            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Priser</a></li>
             <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">FAQs</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">About</a></li>
+            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Om oss</a></li>
           </ul>
-          <p className="text-center text-muted">© 2022 Company, Inc</p>
+          <p className="text-center text-muted">© 2024 Barlivet AB</p>
         </footer>
       </div>
 
