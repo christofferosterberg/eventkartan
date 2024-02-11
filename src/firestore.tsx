@@ -4,15 +4,22 @@ import { createCompany } from "./Users";
 
 
 export async function fetchCompany(id: string) {
-    console.log("hämtar företagsinfo..")
-    const docRef = doc(db, "companies", id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        return createCompany(id, docSnap.data())
+    const companyInfoFromStorage = sessionStorage.getItem(`company_${id}`);
+    if (companyInfoFromStorage) {
+        return JSON.parse(companyInfoFromStorage);
     } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
+        console.log("hämtar företagsinfo..")
+        const docRef = doc(db, "companies", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            return createCompany(id, docSnap.data())
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
     }
+
+
 }
