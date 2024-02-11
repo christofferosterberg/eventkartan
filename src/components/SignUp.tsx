@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-
+import {auth} from '../firebaseConfig'
 
 function SignUp() {
     const [email, setEmail] = useState('');
@@ -23,7 +23,6 @@ function SignUp() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed up 

@@ -4,7 +4,7 @@ import AdminConsole from './AdminConsole';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import app from '../firebaseConfig'
+import {auth} from '../firebaseConfig'
 
 function Admin() {
     // const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -14,7 +14,6 @@ function Admin() {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        const auth = getAuth(app);
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const uid = user.uid;
@@ -27,7 +26,6 @@ function Admin() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             // Signed in 
