@@ -7,7 +7,7 @@ import { fetchCompany } from '../firestore';
 import { Company } from '../Users';
 
 function AdminConsole() {
-    
+
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -16,22 +16,22 @@ function AdminConsole() {
     // State for storing the product list
     const [user, setUser] = useState<Company | null>(null);
     // State for tracking any relevant dependencies for memoization
-    const [dependency, setDependency] = useState(0);
+    // const [dependency, setDependency] = useState(0);
 
     // Define a memoized function for fetching the product list
-    const memoCompany = useMemo(() => async (id:string) => {
-        const fetchedCompany = await fetchCompany(id)
-        if (fetchedCompany) {
-            setUser(fetchedCompany)
-            setIsLoading(false)
-        }
-        // try {
-        //     const response = await axios.get('/api/products'); // Replace with your API endpoint
-        //     setProducts(response.data);
-        // } catch (error) {
-        //     console.error('Error fetching product list:', error);
-        // }
-    }, [dependency]);
+    // const memoCompany = useMemo(() => async (id: string) => {
+    //     const fetchedCompany = await fetchCompany(id)
+    //     if (fetchedCompany) {
+    //         setUser(fetchedCompany)
+    //         setIsLoading(false)
+    //     }
+    //     // try {
+    //     //     const response = await axios.get('/api/products'); // Replace with your API endpoint
+    //     //     setProducts(response.data);
+    //     // } catch (error) {
+    //     //     console.error('Error fetching product list:', error);
+    //     // }
+    // }, [dependency]);
 
     // Fetch the product list on component mount
     // useEffect(() => {
@@ -42,12 +42,29 @@ function AdminConsole() {
         const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
             if (authenticatedUser) {
                 const uid = authenticatedUser.uid;
-                memoCompany(uid)
+                const companyInfoFromStorage = sessionStorage.getItem(`company_${uid}`);
+                if (companyInfoFromStorage) {
+                    // If company information is available in sessionStorage, parse and set it to state
+                    const parsedCompanyInfo = JSON.parse(companyInfoFromStorage);
+                    setUser(parsedCompanyInfo);
+                    setIsLoading(false);
+                } else {
+                    fetchCompany(uid).then((fetchedCompany) => {
+                        if (fetchedCompany) {
+                            // Set company information to state
+                            setUser(fetchedCompany);
+                            setIsLoading(false);
+                            // Store company information in sessionStorage
+                            sessionStorage.setItem(`company_${fetchedCompany.id}`, JSON.stringify(fetchedCompany));
+                        }
+                    });
+                    
+                }
             }
         });
         // Cleanup function to unsubscribe from onAuthStateChanged
         return () => unsubscribe();
-    }, [memoCompany]);
+    }, []);
 
     function logout(): void {
         const auth = getAuth();
