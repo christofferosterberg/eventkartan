@@ -7,9 +7,7 @@ interface AdminConsoleProps {
 function AdminConsole({ company }: AdminConsoleProps) {
 
     return (
-        company && (
-            <></>
-        )
+        <div>{company.name}</div>
     )
 }
 
