@@ -1,10 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-import {auth} from '../firebaseConfig'
+import {auth} from '../../firebaseConfig'
 
 function SignUp() {
     const [email, setEmail] = useState('');
@@ -27,12 +25,14 @@ function SignUp() {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
+                console.log(user)
                 navigate('/admin')
                 // ...
             })
             .catch((error) => {
-                const errorCode = error.code;
+                // const errorCode = error.code;
                 const errorMessage = error.message;
+                console.log(errorMessage)
                 // ..
             });
     };

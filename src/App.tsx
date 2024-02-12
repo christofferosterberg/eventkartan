@@ -2,14 +2,13 @@
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import './App.css'
-import Admin from './components/Company';
 import Home from './components/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
-import SignUp from './components/SignUp';
+import SignUp from './components/CompanyComponents/CompanySignUp';
 import React from 'react';
-import Company from './components/Company';
+import Company from './components/CompanyComponents/Company';
 
 function App() {
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN

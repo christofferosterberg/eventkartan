@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react'
-import { useAuth0 } from '@auth0/auth0-react';
-import AdminConsole from './CompanyOverview';
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from '../firebaseConfig'
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from '../../firebaseConfig'
 import CompanyOverview from './CompanyOverview';
 import CompanySignIn from './CompanySignIn';
-import { CompanyType } from '../Types/CompanyType';
-import { fetchCompany } from '../firestore';
+import { CompanyType } from '../../Types/CompanyType';
+import { fetchCompany } from '../../firestore';
 
 function Company() {
     // const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
@@ -63,6 +61,7 @@ function Company() {
             navigate("/");
         }).catch((error) => {
             // An error happened.
+            console.log(error)
         });
     }
 
@@ -74,7 +73,29 @@ function Company() {
         <div>
             {company ? (
                 <div>
-                    <CompanyOverview company={company}></CompanyOverview>
+                    <div className='container p-5'>
+                        <div className="row">
+                            <div className="col-sm-2">
+                                <div className='text-center'>
+                                    <h2>{company?.name}</h2>
+                                    <ul className='list-group'>
+                                        <Link to='#' className=' list-group-item list-group-item-action'>Översikt</Link>
+                                        <Link to='#' className=' list-group-item list-group-item-action'>Alla event</Link>
+                                        <Link to='#' className=' list-group-item list-group-item-action'>Tidigare event</Link>
+                                        <Link to='#' className=' list-group-item list-group-item-action'>Fakturor och betalningar</Link>
+                                        <Link to='#' className=' list-group-item list-group-item-action'>Prenumeration</Link>
+                                    </ul>
+                                </div>
+                                <button>Lägg upp event</button>
+                            </div>
+                            <div className="col-sm-10">
+                                <div>
+                                    <CompanyOverview company={company}></CompanyOverview>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <CompanyOverview company={company}></CompanyOverview> */}
                     <button className="m-2" onClick={() => logout()}>Logga ut</button>
                 </div>
             ) : (

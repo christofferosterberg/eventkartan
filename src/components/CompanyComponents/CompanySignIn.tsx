@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { auth } from '../firebaseConfig';
+import { auth } from '../../firebaseConfig';
 
 function CompanySignIn() {
     const [email, setEmail] = useState('');

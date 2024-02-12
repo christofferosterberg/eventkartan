@@ -14,12 +14,12 @@ export async function fetchCompany(id: string) {
 
         if (docSnap.exists()) {
             console.log("Document data:", docSnap.data());
-            return createCompany(id, docSnap.data())
+            const company = createCompany(id, docSnap.data())
+            sessionStorage.setItem(`company_${id}`, JSON.stringify(company));
+            return company
         } else {
             // docSnap.data() will be undefined in this case
             console.log("No such document!");
         }
     }
-
-
 }

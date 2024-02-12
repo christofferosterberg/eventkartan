@@ -1,6 +1,5 @@
 import { Button, Modal } from 'react-bootstrap'
 import { EventType } from '../Types/EventType';
-import React from 'react';
 
 export interface EventModalProps {
     showModal: boolean
