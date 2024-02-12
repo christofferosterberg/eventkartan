@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
-import { createCompany } from "./Users";
+import { createCompany } from "./Types/CompanyType";
 
 
 export async function fetchCompany(id: string) {

@@ -1,6 +1,6 @@
 import { GoogleMap, LoadScript, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import { useCallback, useState } from 'react';
-import { EventType } from './Event';
+import { EventType } from '../Types/EventType';
 import React from 'react';
 
 interface MapProps {

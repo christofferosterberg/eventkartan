@@ -4,10 +4,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { fetchCompany } from '../firestore';
-import { Company } from '../Users';
+import { CompanyType } from '../Types/CompanyType';
 
 interface AdminConsoleProps {
-    company: Company,
+    company: CompanyType,
 }
 
 function AdminConsole({ company }: AdminConsoleProps) {

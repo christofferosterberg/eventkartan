@@ -1,6 +1,6 @@
 import React from "react"
 import Event from "./Event"
-import { EventType } from "./Event"
+import { EventType } from "../Types/EventType"
 
 interface ListEventsProps {
     events: EventType[],

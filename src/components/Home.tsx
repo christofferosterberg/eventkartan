@@ -2,7 +2,7 @@ import Search from './Search';
 import ListEvents from './ListEvents';
 import { useEffect, useState } from 'react';
 import EventModal from './EventModal';
-import { EventType } from './Event';
+import { EventType } from '../Types/EventType';
 import Map from './Map';
 import React from 'react';
 

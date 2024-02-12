@@ -7,17 +7,17 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from
 import { auth } from '../firebaseConfig'
 import CompanyOverview from './CompanyOverview';
 import CompanySignIn from './CompanySignIn';
-import { Company } from '../Users';
+import { CompanyType } from '../Types/CompanyType';
 import { fetchCompany } from '../firestore';
 
-function Admin() {
+function Company() {
     // const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
     // const [user, setUser] = useState<string | null>(null);
     // const [isLoading, setIsLoading] = useState(true);
     // const [user, setUser] = useState<Company | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
-    const [company, setCompany] = useState<Company | null>(null);
+    const [company, setCompany] = useState<CompanyType | null>(null);
     const navigate = useNavigate();
 
     // async function getCompany(id: string) {
@@ -84,4 +84,4 @@ function Admin() {
     )
 }
 
-export default Admin
+export default Company
