@@ -25,31 +25,45 @@ function App() {
     >
 
       <div className='d-flex flex-column' style={{ minHeight: '100vh' }}>
-        <div className='flex-grow-1' >
-          <BrowserRouter>
-            <nav className="navbar navbar-dark p-2" style={{ backgroundColor: '#F99C2F' }}>
-              <Link className="navbar-brand text-center" to="/home">BarLivet</Link>
-              <Link className="navbar-brand text-center" to="/foretag">För företag</Link>
+        <BrowserRouter>
+          <div className='flex-grow-1' >
+
+            <nav className="navbar navbar-dark p-2 ">
+              <Link className="navbar-brand mx-auto" to="/hem">Ute-Livet</Link>
+              {/* <Link className="navbar-brand text-center" to="/foretag">För företag</Link> */}
             </nav>
 
             <Routes>
-            <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/hem" element={<Home />} />
               <Route path="/foretag" element={<Company />} />
               <Route path="/registrera" element={<SignUp />} />
             </Routes>
-          </BrowserRouter>
-        </div>
-        <footer className="py-3 mt-4" style={{ backgroundColor: '#F99C2F' }}>
-          <ul className="nav justify-content-center border-bottom pb-3 mb-3">
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Hem</a></li>
-            {/* <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Features</a></li> */}
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Priser</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">FAQs</a></li>
-            <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Om oss</a></li>
-          </ul>
-          <p className="text-center text-muted">© 2024 Barlivet AB</p>
-        </footer>
+
+          </div>
+          <div className='footer mt-4'>
+            <div className="container">
+              <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <p className="col-md-4 mb-0 link-light">© 2022 Company, Inc</p>
+
+                <a href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-light text-decoration-none">
+                  {/* <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> */}
+                  Logga
+                </a>
+
+                <ul className="nav col-md-4 justify-content-end">
+                  {/* <li className="nav-item"><a href="#" className="nav-link px-2 link-light">Hem</a></li> */}
+                  <Link className="nav-link px-2 link-light" to="/hem">Hem</Link>
+                <Link className="nav-link px-2 link-light" to="/foretag">För företag</Link>
+                  {/* <li className="nav-item"><a href="#" className="nav-link px-2 link-light">För företag</a></li> */}
+                  <li className="nav-item"><a href="#" className="nav-link px-2 link-light">Priser</a></li>
+                  <li className="nav-item"><a href="#" className="nav-link px-2 link-light">FAQs</a></li>
+                  {/* <li className="nav-item"><a href="#" className="nav-link px-2 link-light">Om oss</a></li> */}
+                </ul>
+              </footer>
+            </div>
+          </div>
+        </BrowserRouter>
       </div>
 
       {/* </div> */}

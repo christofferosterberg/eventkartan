@@ -86,7 +86,7 @@ function Home() {
 
     return (
         <div>
-            <h1 className='text-center'>Välkommen till BarLivet!</h1>
+            <h1 className='text-center'>Välkommen till Ute-Livet!</h1>
             <div className="container">
                 <div className="row">
                     <div className="col-sm">

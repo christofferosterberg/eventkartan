@@ -32,7 +32,7 @@ function CompanySignIn() {
     }
     return (
         <div className='d-flex p-2'>
-            <div className='w-50 p-2' style={{ backgroundColor: '#FFD580', height: '75vh' }}>
+            <div className='w-50 p-2 temporary-img' style={{ height: '75vh' }}>
                 Bild
             </div>
             <div className='p-2 flex-grow-1'>

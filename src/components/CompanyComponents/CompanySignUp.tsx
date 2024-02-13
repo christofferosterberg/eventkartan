@@ -39,7 +39,7 @@ function SignUp() {
 
     return (
         <div className='d-flex p-2'>
-            <div className='p-2 w-75' style={{ backgroundColor: '#FFD580', height: '75vh' }}>
+            <div className='p-2 w-75 temporary-img' style={{height: '75vh' }}>
                 Bild
             </div>
             <div className='p-2 flex-grow-1'>

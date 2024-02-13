@@ -21,7 +21,7 @@ function Event(props: EventProps) {
                         <p className="text-start mb-2">{props.event.time}</p>
                         <p className="text-start mb-2">{props.event.place}</p>
                         <p className="text-start mb-2">{props.event.shortDescription}</p>
-                        <button className="align-start btn btn-primary" onClick={handleClick} >Se mer</button>
+                        <button className="align-start" onClick={handleClick} >Se mer</button>
                     </div>
                 </div>
             </div>

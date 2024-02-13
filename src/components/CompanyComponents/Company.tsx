@@ -43,7 +43,7 @@ function Company() {
         const auth = getAuth();
         signOut(auth).then(() => {
             setCompany(null)
-            navigate("/");
+            navigate("/foretag");
         }).catch((error) => {
             // An error happened.
             console.log(error)
@@ -69,11 +69,11 @@ function Company() {
                                 <div className='text-center'>
                                     <h2>{company?.name}</h2>
                                     <ul className='list-group'>
-                                        <Link to='#' onClick={() => handleSelectedComponent('overview')} className={`list-group-item list-group-item-action ${activeButton === 'overview' ? 'active' : ''}`}>Översikt</Link>
-                                        <Link to='#' onClick={() => handleSelectedComponent('events')} className={`list-group-item list-group-item-action ${activeButton === 'events' ? 'active' : ''}`}>Alla event</Link>
+                                        <Link to='#' onClick={() => handleSelectedComponent('overview')} className={`list-group-item list-group-item-action ${activeButton === 'overview' ? 'active-company-view' : ''}`}>Översikt</Link>
+                                        <Link to='#' onClick={() => handleSelectedComponent('events')} className={`list-group-item list-group-item-action ${activeButton === 'events' ? 'active-company-view' : ''}`}>Alla event</Link>
                                         {/* <Link to='#' onClick={handleActiveCompanyView} className=' list-group-item list-group-item-action'>Tidigare event</Link>
                                         <Link to='#' onClick={handleActiveCompanyView} className=' list-group-item list-group-item-action'>Fakturor och betalningar</Link> */}
-                                        <Link to='#' onClick={() => handleSelectedComponent('subscriptions')} className={`list-group-item list-group-item-action ${activeButton === 'subscriptions' ? 'active' : ''}`}>Prenumeration</Link>
+                                        <Link to='#' onClick={() => handleSelectedComponent('subscriptions')} className={`list-group-item list-group-item-action ${activeButton === 'subscriptions' ? 'active-company-view' : ''}`}>Prenumeration</Link>
                                     </ul>
                                 </div>
                                 <button>Lägg upp event</button>
