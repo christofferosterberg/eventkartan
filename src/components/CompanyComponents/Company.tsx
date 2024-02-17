@@ -18,18 +18,23 @@ function Company() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
 
             if (authenticatedUser) {
                 const uid = authenticatedUser.uid;
-                fetchCompany(uid).then((fetchedCompany) => {
-                    console.log(fetchedCompany)
-                    if (fetchedCompany) {
-                        setCompany(fetchedCompany)
-                        setIsLoading(false);
+                const userEmail = authenticatedUser.email
+                if (!company) { // company har precis uppdaterats
+                    if (userEmail) {
+                        fetchCompany(userEmail).then((fetchedCompany) => {
+                            console.log(fetchedCompany)
+                            if (fetchedCompany) {
+                                setCompany(fetchedCompany)
+                                setIsLoading(false);
+                            }
+                        })
                     }
-                })
+                }
+
             } else {
                 setIsLoading(false)
             }
@@ -37,6 +42,12 @@ function Company() {
         // Cleanup function to unsubscribe from onAuthStateChanged
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (company) {
+            sessionStorage.setItem(`company_${company.id}`, JSON.stringify(company));
+        }
+    }, [company]);
 
     function logout(): void {
         sessionStorage.removeItem(`company_${company?.id}`);
@@ -81,7 +92,7 @@ function Company() {
                             </div>
                             <div className="col-sm-9">
                                 <div>
-                                    {selectedComponent === 'overview' && <CompanyOverview company={company} />}
+                                    {selectedComponent === 'overview' && <CompanyOverview company={company} setCompany={setCompany} />}
                                     {selectedComponent === 'subscriptions' && <CompanySubscriptions company={company} />}
                                     {selectedComponent === 'events' && <CompanyEvents company={company} />}
                                 </div>
@@ -89,7 +100,7 @@ function Company() {
                         </div>
                     </div>
                     {/* <CompanyOverview company={company}></CompanyOverview> */}
-                    
+
                 </div>
             ) : (
                 <CompanySignIn></CompanySignIn>

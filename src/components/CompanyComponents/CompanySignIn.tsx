@@ -6,21 +6,21 @@ import { auth } from '../../firebaseConfig';
 function CompanySignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            console.log(user)
-            // ...
-          })
-          .catch((error) => {
-            // const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage)
-          });
+            .then((userCredential) => {
+                // Signed in 
+                // const user = userCredential.user;
+                // console.log(user)
+                // ...
+            })
+            .catch((error) => {
+                // const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorMessage)
+            });
     };
 
     function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -32,23 +32,17 @@ function CompanySignIn() {
     }
     return (
         <div className='d-flex p-2'>
-            <div className='w-50 p-2 temporary-img' style={{ height: '75vh' }}>
-                Bild
-            </div>
-            <div className='p-2 flex-grow-1'>
-                <h1>Logga in som företag</h1>
+            <img className="w-50" src="./music-quiz.jpeg"></img>
+            <div className='px-5'>
+                <h1 className='p-2'>Logga in som företag</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Email</label>
-                        <div className="col-sm-10">
-                            <input type="email" value={email} onChange={handleEmailChange} required className="form-control" placeholder="email@example.com"></input>
-                        </div>
+                    <div className="form-floating">
+                        <input type="email" value={email} onChange={handleEmailChange} required className="form-control" placeholder="email@example.com"></input>
+                        <label className="col-sm-3 col-form-label">Email</label>
                     </div>
-                    <div className="form-group row mt-2">
-                        <label className="col-sm-2 col-form-label">Lösenord</label>
-                        <div className="col-sm-10">
-                            <input type="password" value={password} onChange={handlePasswordChange} required className="form-control" placeholder="Lösenord"></input>
-                        </div>
+                    <div className="form-floating mt-2">
+                        <input type="password" value={password} onChange={handlePasswordChange} required className="form-control" placeholder="Lösenord"></input>
+                        <label className="col-sm-3 col-form-label">Lösenord</label>
                     </div>
                     <button className="mt-2" type="submit">Logga in</button>
                 </form>
