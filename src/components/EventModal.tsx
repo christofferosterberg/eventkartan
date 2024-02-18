@@ -1,7 +1,7 @@
 import { Button, Modal } from 'react-bootstrap'
 import { EventType } from '../Types/EventType';
 
-export interface EventModalProps {
+interface EventModalProps {
     showModal: boolean
     activeEvent: EventType
     handleCloseModal: () => void

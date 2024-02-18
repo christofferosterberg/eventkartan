@@ -71,7 +71,7 @@ function SignUp() {
                             onChange={handleFormChange}
                             required className="form-control"
                             placeholder="0000-0000000"></input>
-                        <label className="col-sm-3 col-form-label">Org-nummer</label>
+                        <label className="col-form-label">Organisationsnummer</label>
                     </div>
                     <div className="form-floating mt-2">
                         <input
@@ -82,7 +82,7 @@ function SignUp() {
                             required
                             className="form-control"
                             placeholder="email@example.com"></input>
-                        <label className="col-sm-3 col-form-label">Email</label>
+                        <label className="col-form-label">Email</label>
                     </div>
                     <div className="form-floating mt-2">
                         <input
@@ -93,7 +93,7 @@ function SignUp() {
                             required
                             className="form-control"
                             placeholder="Lösenord"></input>
-                        <label className="col-sm-3 col-form-label">Lösenord</label>
+                        <label className="col-form-label">Lösenord</label>
                     </div>
                     <div className="form-floating mt-2">
                         <input
@@ -103,7 +103,7 @@ function SignUp() {
                             onChange={handleFormChange}
                             required className="form-control"
                             placeholder="Lösenord"></input>
-                        <label className="col-sm-3 col-form-label">Repetera Lösenord</label>
+                        <label className="col-form-label">Repetera lösenord</label>
                     </div>
                     <button className="mt-2" type="submit">Registrera</button>
                 </form>

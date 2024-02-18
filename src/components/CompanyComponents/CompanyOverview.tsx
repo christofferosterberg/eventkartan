@@ -1,20 +1,26 @@
 import { ChangeEvent, useState } from 'react';
 import { CompanyType } from '../../Types/CompanyType';
 import { updateCompany } from '../../firestore';
+import NewCompanyAdminModal from './NewCompanyAdminModal';
 
 interface AdminConsoleProps {
     company: CompanyType,
     setCompany: React.Dispatch<React.SetStateAction<CompanyType | null>>;
 }
 
-function AdminConsole({ company }: AdminConsoleProps) {
+function AdminConsole({ company, setCompany }: AdminConsoleProps) {
 
     const [companyInfo, setCompanyInfo] = useState(company);
+    const [showModal, setShowModal] = useState(false)
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleSaveChanges = () => setShowModal(false);
 
     function handleUpdate(event: any) {
         event.preventDefault()
-        updateCompany(companyInfo)
-        // throw new Error('Function not implemented.');
+        updateCompany(companyInfo).then(() => {
+            setCompany(companyInfo)
+        })
     }
 
     function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
@@ -26,25 +32,9 @@ function AdminConsole({ company }: AdminConsoleProps) {
         }));
     }
 
-    // const handleAdminChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    //     const { name, value } = event.target;
-    //     // Dynamically update based on input name
-    //     setCompanyInfo(prev => {
-    //       const newState = { ...prev }; // Shallow copy of the state
-    //       // Assuming name is in format "admins[0].email" or similar
-    //       const nameParts = name.split(/[\[\].]+/); // Splits into ["admins", "0", "email"]
-    //       if (nameParts[0] === 'admins') {
-    //         const index = parseInt(nameParts[1], 10); // Get the admin index
-    //         const propName = nameParts[2]; // Get the property name (e.g., "email")
-    //         // Update the specific admin property
-    //         newState.admins[index] = {
-    //           ...newState.admins[index],
-    //           [propName]: value,
-    //         };
-    //       }
-    //       return newState;
-    //     });
-    //   };
+    function openModal() {
+        setShowModal(true)
+    }
 
     return (
         <div>
@@ -115,35 +105,20 @@ function AdminConsole({ company }: AdminConsoleProps) {
                 </div>
                 <div className='col-md-12 d-flex'>
                     <h5>Administratörer</h5>
-                    <button className='mx-2'>Lägg till ny</button>
                 </div>
-                </form>
+            </form>
 
-
-
-                <div className="form-floating col-md-6">
-                    <p>{companyInfo.admins[0]}</p>
-                    {/* <input
-                        type="email"
-                        className="form-control"
-                        placeholder="name@example.com"
-                        name="admins[0].email"
-                        value={companyInfo.admins[0]}></input>
-                    <label className='mx-2'>Mail (för inloggning)</label> */}
-                </div>
-                {/* <div className="form-floating col-md-3">
-                    <select className="form-select" name="admins[0].role" >
-                        <option selected>Ägare</option>
-                        <option value="1">Medarbetare</option>
-                    </select>
-                    <label className='mx-2'>Roll</label>
-                </div> */}
-                {/* <div className='col-md-3'> */}
-                {/* <button>Lägg till ny</button> */}
-                {/* </div> */}
-
-
-            
+            <div className="form-floating col-md-6">
+                <p>{companyInfo.admins[0]}</p>
+                <button className='admin-plus-button' onClick={openModal}>Lägg till ny</button>
+            </div>
+            {showModal && (
+                <NewCompanyAdminModal
+                    showModal={showModal}
+                    handleCloseModal={handleCloseModal}
+                    handleSaveChanges={handleSaveChanges} companyID={company.id}>
+                </NewCompanyAdminModal>
+            )}
         </div>
     )
 }

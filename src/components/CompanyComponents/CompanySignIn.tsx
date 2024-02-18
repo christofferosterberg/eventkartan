@@ -38,11 +38,11 @@ function CompanySignIn() {
                 <form onSubmit={handleSubmit}>
                     <div className="form-floating">
                         <input type="email" value={email} onChange={handleEmailChange} required className="form-control" placeholder="email@example.com"></input>
-                        <label className="col-sm-3 col-form-label">Email</label>
+                        <label className="col-form-label">Email</label>
                     </div>
                     <div className="form-floating mt-2">
                         <input type="password" value={password} onChange={handlePasswordChange} required className="form-control" placeholder="Lösenord"></input>
-                        <label className="col-sm-3 col-form-label">Lösenord</label>
+                        <label className="col-form-label">Lösenord</label>
                     </div>
                     <button className="mt-2" type="submit">Logga in</button>
                 </form>
