@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { CompanyType } from '../../Types/CompanyType';
 import { updateCompany } from '../../firestore';
 import NewCompanyAdminModal from './NewCompanyAdminModal';
@@ -56,7 +56,7 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                         className="form-control"
                         placeholder=""
                         name="email"
-                        value={companyInfo.email}
+                        value={companyInfo.contactEmail}
                         onChange={handleFormChange}></input>
                     <label className="mx-2">Kontakt-mail (för kunder)</label>
                 </div>
@@ -109,14 +109,16 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
             </form>
 
             <div className="form-floating col-md-6">
-                <p>{companyInfo.admins[0]}</p>
+                {companyInfo.admins.map((admin) => (
+                    <p>{admin.email}</p>
+                ))}
                 <button className='admin-plus-button' onClick={openModal}>Lägg till ny</button>
             </div>
             {showModal && (
                 <NewCompanyAdminModal
                     showModal={showModal}
                     handleCloseModal={handleCloseModal}
-                    handleSaveChanges={handleSaveChanges} companyID={company.id}>
+                    handleSaveChanges={handleSaveChanges} companyID={company.orgNumber}>
                 </NewCompanyAdminModal>
             )}
         </div>

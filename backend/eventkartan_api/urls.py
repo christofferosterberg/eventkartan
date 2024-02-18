@@ -21,8 +21,10 @@ from api import views
 
 router = DefaultRouter()
 router.register(r'events', views.EventViewSet)
+router.register(r'companies', views.CompanyViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/get_companies_by_user_email/<str:user_email>/', views.get_companies_by_user_email, name='get_companies_by_user_email'),
 ]

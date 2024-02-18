@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { CompanyType } from '../../Types/CompanyType'
 import { SubscriptionType } from '../../Types/SubscriptionType';
 import { fetchSubscriptions } from '../../firestore';
+import { format } from 'date-fns';
+
 
 interface CompanySubscriptionsProps {
   company: CompanyType
@@ -17,8 +19,8 @@ function CompanySubscriptions({ company }: CompanySubscriptionsProps) {
     if (!subscriptions) {
       const storedSubscriptions = sessionStorage.getItem('subscriptions');
       if (storedSubscriptions) {
-        setSubscriptions(JSON.parse(storedSubscriptions).slice(0,3))
-        setsinglePurchases(JSON.parse(storedSubscriptions).slice(3,5))
+        setSubscriptions(JSON.parse(storedSubscriptions).slice(0, 3))
+        setsinglePurchases(JSON.parse(storedSubscriptions).slice(3, 5))
         setIsLoading(false)
       } else {
         fetchSubscriptions().then((fetchedSubscriptions: SubscriptionType[]) => {
@@ -45,36 +47,35 @@ function CompanySubscriptions({ company }: CompanySubscriptionsProps) {
   return (
     <div>
       <div className='border rounded p-2'>
-        {
-          // Render based on the value of stateVar
-          (companySubscription.subscriptionID === 3 || companySubscription.subscriptionID === 4 || companySubscription.subscriptionID === 5) ? (
-            <div>
-              <h2>Du har en aktiv prenumeration</h2>
-              <p>Event kvar: {companySubscription.eventsLeft}</p>
-              <p>Förnyas: {companySubscription.eventsLeft}</p>
-            </div>
-          ) : companySubscription.subscriptionID === 99 ? (
-            <h2>Du har inga evenemang att lägga upp</h2>
-          ) : (
-            <div>
-              <h2>Du har oanvända evenemang att nyttja</h2>
-              <p>Event kvar: {companySubscription.eventsLeft}</p>
-            </div>
-          )
-        }
-      </div>
-      <div className="d-flex justify-content-around mt-2">
-        {subscriptions ? (
-          subscriptions.map((subscription) => (
-            <div className='border rounded py-3 px-5' key={subscription.id}>{subscription.price}</div>
-          ))
+        {companySubscription ? (
+          <>
+            {companySubscription.type === 3 || companySubscription.type === 4 || companySubscription.type === 5 ? (
+              <div>
+                <h2>Du har en aktiv prenumeration</h2>
+                <p>Event kvar: {companySubscription.eventsLeft}</p>
+                <p>Förnyas: {format(new Date(companySubscription.renewDate), 'yyyy-MM-dd')}</p>
+                <p>pris: {companySubscription.price} kr/månad</p>
+                <p>Prenumererat sedan: {format(new Date(companySubscription.subscribeDate), 'yyyy-MM-dd')}</p>
+              </div>
+            ) : companySubscription.type === 1 || companySubscription.type === 2 ? (
+              <div>
+                <h2>Du har oanvända evenemang att nyttja</h2>
+                <p>Event kvar: {companySubscription.eventsLeft}</p>
+              </div>
+            ) : null}
+          </>
         ) : (
-          null
+          <h2>Du har inga evenemang att lägga upp</h2>
         )}
       </div>
-
+      <div className="d-flex justify-content-around mt-2">
+        {subscriptions && subscriptions.map((subscription) => (
+          <div className='border rounded py-3 px-5' key={subscription.id}>{subscription.price}</div>
+        ))}
+      </div>
     </div>
-  )
+  );
+
 }
 
 export default CompanySubscriptions

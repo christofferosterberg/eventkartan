@@ -6,7 +6,7 @@ import { auth } from '../../firebaseConfig'
 import CompanyOverview from './CompanyOverview';
 import CompanySignIn from './CompanySignIn';
 import { CompanyType } from '../../Types/CompanyType';
-import { fetchCompany } from '../../firestore';
+import { fetchCompanies } from '../../firestore';
 import CompanySubscriptions from './CompanySubscriptions';
 import CompanyEvents from './CompanyEvents';
 import CompanyPayments from './CompanyPayments';
@@ -27,16 +27,17 @@ function Company() {
                 const userEmail = authenticatedUser.email
                 if (!company) {
                     if (userEmail) {
-                        fetchCompany(userEmail).then((fetchedCompany) => {
-                            console.log(fetchedCompany)
+                        fetchCompanies(userEmail).then((fetchedCompany) => {
                             if (fetchedCompany) {
+                                // console.log(fetchedCompany)
                                 setCompany(fetchedCompany)
                                 setIsLoading(false);
                             }
+
                         })
                     }
+                    setIsLoading(false)
                 }
-
             } else {
                 setIsLoading(false)
             }
@@ -47,12 +48,12 @@ function Company() {
 
     useEffect(() => {
         if (company) {
-            sessionStorage.setItem(`company_${company.id}`, JSON.stringify(company));
+            sessionStorage.setItem(`company_${company.orgNumber}`, JSON.stringify(company));
         }
     }, [company]);
 
     function logout(): void {
-        sessionStorage.removeItem(`company_${company?.id}`);
+        sessionStorage.removeItem(`company_${company?.orgNumber}`);
         const auth = getAuth();
         signOut(auth).then(() => {
             setCompany(null)

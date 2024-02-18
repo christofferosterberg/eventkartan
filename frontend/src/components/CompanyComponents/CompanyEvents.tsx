@@ -7,7 +7,7 @@ interface CompanyEventsProps {
 
 function CompanyEvents({company} : CompanyEventsProps) {
   return (
-    <div>{company.email}</div>
+    <div>{company.contactEmail}</div>
   )
 }
 

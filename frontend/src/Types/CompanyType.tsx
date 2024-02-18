@@ -1,35 +1,39 @@
 interface CompanyAdmin {
     email: string;
-    role: string;
 }
 
 interface Subscription {
-    eventsLeft: number;
-    purchaseDate: Date;
-    subscriptionID: number;
+    eventsLeft: number,
+    price: number,
+    recurring: true,
+    renewDate: Date,
+    subscribeDate: Date,
+    type: number
 }
 
 export interface CompanyType {
-    id: string;
-    email: string;
+    orgNumber: string;
+    contactEmail: string;
+    description: string;
     name: string;
     address: string
     city: string;
     zip: string;
     phone: string;
-    admins: string[];
+    admins: CompanyAdmin[];
     subscription: Subscription;
 }
 
-export function company(id: string, fetchedCompany: any) {
+export function company(fetchedCompany: any) {
     const company: CompanyType = {
-        id: id,
-        email: fetchedCompany.email,
+        orgNumber: fetchedCompany.orgNumber,
+        contactEmail: fetchedCompany.contactEmail,
         name: fetchedCompany.name,
         address: fetchedCompany.address,
         city: fetchedCompany.city,
         phone: fetchedCompany.phone,
         zip: fetchedCompany.zip,
+        description: fetchedCompany.description,
         admins: fetchedCompany.admins,
         subscription: subscription(fetchedCompany.subscription)
     }
@@ -39,8 +43,11 @@ export function company(id: string, fetchedCompany: any) {
 function subscription(fetchedSubscription:any) {
     const subscription:Subscription = {
         eventsLeft: fetchedSubscription.eventsLeft,
-        purchaseDate: fetchedSubscription.purchaseDate,
-        subscriptionID: +fetchedSubscription.subscriptionID
+        price: fetchedSubscription.price,
+        recurring: fetchedSubscription.recurring,
+        renewDate: fetchedSubscription.renewDate,
+        subscribeDate: fetchedSubscription.subscribeDate,
+        type: fetchedSubscription.type
     }
     return subscription
 }

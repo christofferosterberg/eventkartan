@@ -7,8 +7,12 @@ django.setup()
 from api.models import EmailAddress, Company, Event, SubscriptionOption, Subscription
 
 def populate():
-    email = EmailAddress(email='test@test.se')
-    email.save()
+    email_1 = EmailAddress(email='test@test.se')
+    email_2 = EmailAddress(email='test2@test.se')
+    email_3 = EmailAddress(email='test3@test.se')
+    email_1.save()
+    email_2.save()
+    email_3.save()
 
     company = Company(
         address='Masthuggstorget',
@@ -21,7 +25,9 @@ def populate():
         zip='12345'
     )
     company.save()
-    company.admins.add(email)  # Assuming 'email' is an EmailAddress instance created earlier
+    company.admins.add(email_1)
+    company.admins.add(email_2)
+    company.admins.add(email_3)
 
     event = Event(
         address='Masthuggstorget',
@@ -79,7 +85,6 @@ def populate():
     subscription_option_5.save()
 
     subscription = Subscription(
-        company=company,  # Use the company instance created earlier
         eventsLeft=2,
         subscriptionOption=subscription_option_3,  # Use the SubscriptionOption instance
         price=300,
@@ -89,6 +94,8 @@ def populate():
         type=3
     )
     subscription.save()
+    company.subscription = subscription
+    company.save()
 
     print(Company.objects.all())
     print(Event.objects.all())
