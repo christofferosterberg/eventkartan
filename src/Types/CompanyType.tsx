@@ -1,6 +1,12 @@
-export interface CompanyAdmin {
+interface CompanyAdmin {
     email: string;
     role: string;
+}
+
+interface Subscription {
+    eventsLeft: number;
+    purchaseDate: Date;
+    subscriptionID: number;
 }
 
 export interface CompanyType {
@@ -12,6 +18,7 @@ export interface CompanyType {
     zip: string;
     phone: string;
     admins: string[];
+    subscription: Subscription;
 }
 
 export function company(id: string, fetchedCompany: any) {
@@ -23,9 +30,19 @@ export function company(id: string, fetchedCompany: any) {
         city: fetchedCompany.city,
         phone: fetchedCompany.phone,
         zip: fetchedCompany.zip,
-        admins: fetchedCompany.admins
+        admins: fetchedCompany.admins,
+        subscription: subscription(fetchedCompany.subscription)
     }
     return company
+}
+
+function subscription(fetchedSubscription:any) {
+    const subscription:Subscription = {
+        eventsLeft: fetchedSubscription.eventsLeft,
+        purchaseDate: fetchedSubscription.purchaseDate,
+        subscriptionID: +fetchedSubscription.subscriptionID
+    }
+    return subscription
 }
 
 // function createAdmins(admins: CompanyAdmin[]): CompanyAdmin[] {

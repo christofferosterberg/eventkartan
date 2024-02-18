@@ -1,9 +1,14 @@
 import { doc, setDoc, getDoc, updateDoc, collection, query, getDocs, where, arrayUnion } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { CompanyType, company } from "./Types/CompanyType";
+import { SubscriptionType, subscription } from "./Types/SubscriptionType";
 
 
 export async function fetchCompany(userEmail: string) {
+    // const companyInfoFromStorage = sessionStorage.getItem(`company_${id}`);
+    // if (companyInfoFromStorage) {	
+    //     return JSON.parse(companyInfoFromStorage);	   
+    // } else {
     console.log("hämtar företagsinfo..")
 
     const companiesRef = collection(db, 'companies');
@@ -67,5 +72,18 @@ export async function addAdmin(companyID: string, email: string) {
     await updateDoc(companyRef, {
         regions: arrayUnion(email)
     });
-    
+}
+
+export async function fetchSubscriptions() {
+    const subscriptions: SubscriptionType[] = []
+
+    console.log("hämtar prenumerationer..")
+
+    const querySnapshot = await getDocs(collection(db, "subscriptions"));
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        subscriptions.push(subscription(doc.id, doc.data()))
+    });
+
+    return subscriptions
 }

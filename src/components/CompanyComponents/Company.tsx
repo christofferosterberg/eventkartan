@@ -9,6 +9,7 @@ import { CompanyType } from '../../Types/CompanyType';
 import { fetchCompany } from '../../firestore';
 import CompanySubscriptions from './CompanySubscriptions';
 import CompanyEvents from './CompanyEvents';
+import CompanyPayments from './CompanyPayments';
 
 function Company() {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +22,10 @@ function Company() {
         const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
 
             if (authenticatedUser) {
-                const uid = authenticatedUser.uid;
+                // const uid = authenticatedUser.uid;
+                // sessionStorage.setItem(`user_${uid}`, JSON.stringify(uid));
                 const userEmail = authenticatedUser.email
-                if (!company) { // company har precis uppdaterats
+                if (!company) {
                     if (userEmail) {
                         fetchCompany(userEmail).then((fetchedCompany) => {
                             console.log(fetchedCompany)
@@ -85,6 +87,8 @@ function Company() {
                                         {/* <Link to='#' onClick={handleActiveCompanyView} className=' list-group-item list-group-item-action'>Tidigare event</Link>
                                         <Link to='#' onClick={handleActiveCompanyView} className=' list-group-item list-group-item-action'>Fakturor och betalningar</Link> */}
                                         <Link to='#' onClick={() => handleSelectedComponent('subscriptions')} className={`list-group-item list-group-item-action ${activeButton === 'subscriptions' ? 'active-company-view' : ''}`}>Prenumeration</Link>
+                                        <Link to='#' onClick={() => handleSelectedComponent('payments')} className={`list-group-item list-group-item-action ${activeButton === 'payments' ? 'active-company-view' : ''}`}>Betalningar</Link>
+
                                     </ul>
                                 </div>
                                 <button>Lägg upp event</button>
@@ -95,6 +99,7 @@ function Company() {
                                     {selectedComponent === 'overview' && <CompanyOverview company={company} setCompany={setCompany} />}
                                     {selectedComponent === 'subscriptions' && <CompanySubscriptions company={company} />}
                                     {selectedComponent === 'events' && <CompanyEvents company={company} />}
+                                    {selectedComponent === 'payments' && <CompanyPayments company={company} />}
                                 </div>
                             </div>
                         </div>
