@@ -22,9 +22,12 @@ from api import views
 router = DefaultRouter()
 router.register(r'events', views.EventViewSet)
 router.register(r'companies', views.CompanyViewSet)
+router.register(r'subscriptions', views.SubscriptionOptionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/get_companies_by_user_email/<str:user_email>/', views.get_companies_by_user_email, name='get_companies_by_user_email'),
+    path('api/company/<int:org_number>/update/', views.update_company, name='update_company'),
+    path('api/subscription_options/', views.get_subscription_options, name='get_subscription_options'),
 ]

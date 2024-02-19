@@ -2,6 +2,7 @@ import { doc, setDoc, getDoc, updateDoc, collection, query, getDocs, where, arra
 import { db } from "./firebaseConfig";
 import { CompanyType, company } from "./Types/CompanyType";
 import { SubscriptionType, subscription } from "./Types/SubscriptionType";
+import axios from "axios";
 
 
 export async function fetchCompanies(userEmail: string) {
@@ -24,27 +25,6 @@ export async function fetchCompanies(userEmail: string) {
     } catch (error) {
         console.error("Could not fetch companies:", error);
     }
-
-    // const companiesRef = collection(db, 'companies');
-    // console.log(userEmail)
-    // const q = query(companiesRef, where('admins', 'array-contains', userEmail));
-
-    // try {
-    //     const querySnapshot = await getDocs(q);
-    //     const companies: CompanyType[] = [];
-    //     querySnapshot.forEach((doc) => {
-    //         console.log(doc.id, " => ", doc.data());
-    //         companies.push(company(doc.id, doc.data()));
-    //     });
-    //     if (companies.length > 0) {
-    //         return companies[0];
-    //     } else {
-    //         return null
-    //     }
-    // } catch (error) {
-    //     console.error("Error fetching company by admin ID:", error);
-    //     throw error;
-    // }
 }
 
 export async function createCompany(orgNumber: string, uid: string, userEmail: string) {
@@ -66,17 +46,23 @@ export async function createCompany(orgNumber: string, uid: string, userEmail: s
 }
 
 export async function updateCompany(company: CompanyType) {
-    // const companyRef = doc(db, "companies", company.id);
+    const updatedCompany = {
+        name: company.name,
+        description: company.description,
+        contactEmail: company.contactEmail,
+        address: company.address,
+        city: company.city,
+        zip: company.zip,
+        phone: company.phone
+    };
 
-    // // Set the "capital" field of the city 'DC'
-    // await updateDoc(companyRef, {
-    //     address: company.address,
-    //     city: company.city,
-    //     email: company.email,
-    //     name: company.name,
-    //     phone: company.phone,
-    //     zip: company.zip
-    // })
+    axios.post(`http://localhost:8000/api/company/${company.orgNumber}/update/`, updatedCompany)
+    .then((response) => {
+      console.log('Success:', response.data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
 export async function addAdmin(companyID: string, email: string) {
@@ -89,15 +75,26 @@ export async function addAdmin(companyID: string, email: string) {
 }
 
 export async function fetchSubscriptions() {
+    const url = `http://127.0.0.1:8000/api/subscription_options/`;
     const subscriptions: SubscriptionType[] = []
 
     console.log("hämtar prenumerationer..")
 
-    const querySnapshot = await getDocs(collection(db, "subscriptions"));
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        subscriptions.push(subscription(doc.id, doc.data()))
-    });
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.subscription_options.length > 0) {
+            data.subscription_options.forEach((fetchedSubscription:any) => {
+                subscriptions.push(subscription(fetchedSubscription))
+            });
+            return subscriptions
+        }
+    } catch (error) {
+        console.error("Could not fetch companies:", error);
+    }
 
     return subscriptions
 }

@@ -17,28 +17,28 @@ function CompanySubscriptions({ company }: CompanySubscriptionsProps) {
 
   useEffect(() => {
     if (!subscriptions) {
-      const storedSubscriptions = sessionStorage.getItem('subscriptions');
-      if (storedSubscriptions) {
-        setSubscriptions(JSON.parse(storedSubscriptions).slice(0, 3))
-        setsinglePurchases(JSON.parse(storedSubscriptions).slice(3, 5))
-        setIsLoading(false)
-      } else {
-        fetchSubscriptions().then((fetchedSubscriptions: SubscriptionType[]) => {
-          if (fetchedSubscriptions) {
-            setSubscriptions(fetchedSubscriptions.slice(0, 3))
-            setsinglePurchases(fetchedSubscriptions.slice(3, 4))
-            setIsLoading(false)
-          }
-        })
-      }
+      // const storedSubscriptions = sessionStorage.getItem('subscriptions');
+      // if (storedSubscriptions) {
+      //   setSubscriptions(JSON.parse(storedSubscriptions).slice(0, 3))
+      //   setsinglePurchases(JSON.parse(storedSubscriptions).slice(3, 5))
+      //   setIsLoading(false)
+      // } else {
+      fetchSubscriptions().then((fetchedSubscriptions: SubscriptionType[]) => {
+        if (fetchedSubscriptions) {
+          setsinglePurchases(fetchedSubscriptions.slice(0, 2))
+          setSubscriptions(fetchedSubscriptions.slice(2, 5))
+          setIsLoading(false)
+        }
+      })
+      // }
     }
   })
 
-  useEffect(() => {
-    if (subscriptions) {
-      sessionStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-    }
-  }, [subscriptions])
+  // useEffect(() => {
+  //   if (subscriptions) {
+  //     sessionStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+  //   }
+  // }, [subscriptions])
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -70,7 +70,19 @@ function CompanySubscriptions({ company }: CompanySubscriptionsProps) {
       </div>
       <div className="d-flex justify-content-around mt-2">
         {subscriptions && subscriptions.map((subscription) => (
-          <div className='border rounded py-3 px-5' key={subscription.id}>{subscription.price}</div>
+          <div className='border rounded py-3 px-3 text-center' key={subscription.type}>
+            <h4>{subscription.name}</h4>
+            <p>{subscription.price} kr/månad</p>
+            </div>
+        ))}
+      </div>
+      <h2 className='text-center mt-4'>Köp extra event</h2>
+      <div className="d-flex justify-content-around mt-2">
+        {singlePurchases && singlePurchases.map((singlePurchase) => (
+          <div className='border rounded py-3 px-3 text-center' key={singlePurchase.type}>
+            <h4>{singlePurchase.name}</h4>
+            <p>{singlePurchase.price} kr</p>
+            </div>
         ))}
       </div>
     </div>

@@ -1,16 +1,20 @@
 export interface SubscriptionType {
     id: number;
+    name: string;
     eventQuantity: number;
     price: number;
-    recurring: boolean
+    recurring: boolean;
+    type: number;
 }
 
-export function subscription(id: string, fetchedSubscription:any) {
+export function subscription(fetchedSubscription:any) {
     const subscription:SubscriptionType = {
-        id: +id,
+        id: fetchedSubscription.id,
         eventQuantity: fetchedSubscription.eventQuantity,
         price: fetchedSubscription.price,
-        recurring: fetchedSubscription.recurring
+        recurring: fetchedSubscription.recurring,
+        name: fetchedSubscription.name,
+        type: fetchedSubscription.type
     }
     return subscription
 }

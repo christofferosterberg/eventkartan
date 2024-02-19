@@ -24,8 +24,6 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
     }
 
     function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
-        console.log(event.target.name);
-        console.log(event.target.value);
         setCompanyInfo(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value, // Using computed property names
