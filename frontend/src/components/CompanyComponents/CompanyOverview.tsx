@@ -43,6 +43,16 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                         type="text"
                         className="form-control"
                         placeholder=""
+                        name="orgNumber"
+                        value={companyInfo.orgNumber}
+                        disabled></input>
+                    <label className="mx-2">Organisationsnummer</label>
+                </div>
+                <div className="form-floating col-md-6">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder=""
                         name="name"
                         value={companyInfo.name}
                         onChange={handleFormChange}></input>
@@ -58,7 +68,7 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                         onChange={handleFormChange}></input>
                     <label className="mx-2">Kontakt-mail (för kunder)</label>
                 </div>
-                <div className="form-floating col-md-12">
+                <div className="form-floating col-md-6">
                     <input
                         type="text"
                         className="form-control"

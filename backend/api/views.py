@@ -64,13 +64,44 @@ def get_subscription_options(request):
         serializer = SubscriptionOptionSerializer(option)
         options.append(serializer.data)
     return JsonResponse({"subscription_options": options})
+
+@csrf_exempt
+def get_events():
+    print("hej")
+    all_events = Event.objects.all()
+    print(events)
+    events = []
+    for event in all_events:
+        serializer = EventSerializer(event)
+        events.append(serializer.data)
+    return JsonResponse({"events": events})
     
-    companies = []
-    for email_address in email_addresses:
-        # Retrieve companies related to this email address
-        companies_for_email = email_address.companies.all()
-        for company in companies_for_email:
-            serializer = CompanySerializer(company)
-            companies.append(serializer.data)
-            
-    return JsonResponse({"companies": companies})
+
+@csrf_exempt
+@require_http_methods(["POST"])  # Only allow POST requests for updates
+def create_event(request):
+    try:
+        data = json.loads(request.body)
+        try:
+            host_company = Company.objects.get(orgNumber=data.get('host'))
+        except Company.DoesNotExist:
+            return HttpResponseBadRequest("Company not found.")
+        
+        event = Event(
+            address=data.get('address'),
+            book=data.get('book'),
+            date=data.get('date'),
+            host=host_company,  # Use the company instance created earlier
+            img=data.get('img'),
+            latitude=data.get('latitude'),
+            longitude=-data.get('longitude'),
+            longDesciption=data.get('longDescription'),
+            shortDescription=data.get('shortDescription'),
+            title=data.get('title')
+        )
+        event.save()
+        return JsonResponse({"message": "Company updated successfully."})
+    except Company.DoesNotExist:
+        return HttpResponseBadRequest("Company not found.")
+    except Exception as e:
+        return HttpResponseBadRequest("Error updating company: {}".format(e))

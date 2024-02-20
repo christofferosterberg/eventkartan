@@ -10,6 +10,7 @@ import { fetchCompanies } from '../../firestore';
 import CompanySubscriptions from './CompanySubscriptions';
 import CompanyEvents from './CompanyEvents';
 import CompanyPayments from './CompanyPayments';
+import CreateEventModal from './CreateEventModal';
 
 function Company() {
     const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +18,10 @@ function Company() {
     const [selectedComponent, setSelectedComponent] = useState<string | null>('overview');
     const [activeButton, setActiveButton] = useState<string | null>('overview');
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false)
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleSaveChanges = () => setShowModal(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
@@ -73,6 +78,10 @@ function Company() {
         return <div>Loading ...</div>;
     }
 
+    function openModal() {
+        setShowModal(true)
+    }
+
     return (
         <div>
             {company ? (
@@ -92,7 +101,7 @@ function Company() {
 
                                     </ul>
                                 </div>
-                                <button>Lägg upp event</button>
+                                <button onClick={openModal}>Skapa event</button>
                                 <button className="m-2" onClick={() => logout()}>Logga ut</button>
                             </div>
                             <div className="col-sm-9">
@@ -106,7 +115,12 @@ function Company() {
                         </div>
                     </div>
                     {/* <CompanyOverview company={company}></CompanyOverview> */}
-
+                    <CreateEventModal
+                        showModal={showModal}
+                        handleCloseModal={handleCloseModal}
+                        handleSaveChanges={handleSaveChanges} 
+                        company={company}>
+                    </CreateEventModal>
                 </div>
             ) : (
                 <CompanySignIn></CompanySignIn>

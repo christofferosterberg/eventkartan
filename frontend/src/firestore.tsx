@@ -3,6 +3,7 @@ import { db } from "./firebaseConfig";
 import { CompanyType, company } from "./Types/CompanyType";
 import { SubscriptionType, subscription } from "./Types/SubscriptionType";
 import axios from "axios";
+import { EventType, makeEvent } from "./Types/EventType";
 
 
 export async function fetchCompanies(userEmail: string) {
@@ -57,12 +58,12 @@ export async function updateCompany(company: CompanyType) {
     };
 
     axios.post(`http://localhost:8000/api/company/${company.orgNumber}/update/`, updatedCompany)
-    .then((response) => {
-      console.log('Success:', response.data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+        .then((response) => {
+            console.log('Success:', response.data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 export async function addAdmin(companyID: string, email: string) {
@@ -87,7 +88,7 @@ export async function fetchSubscriptions() {
         }
         const data = await response.json();
         if (data.subscription_options.length > 0) {
-            data.subscription_options.forEach((fetchedSubscription:any) => {
+            data.subscription_options.forEach((fetchedSubscription: any) => {
                 subscriptions.push(subscription(fetchedSubscription))
             });
             return subscriptions
@@ -97,4 +98,51 @@ export async function fetchSubscriptions() {
     }
 
     return subscriptions
+}
+
+export async function fetchEvents() {
+    const url = `http://127.0.0.1:8000/api/events/`;
+    const events: EventType[] = []
+    console.log("hämtar events..")
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data)
+        if (data.length > 0) {
+            data.forEach((fetchedEvent: any) => {
+                console.log(fetchedEvent)
+                events.push(makeEvent(fetchedEvent))
+            });
+            return events
+        }
+    } catch (error) {
+        console.error("Could not fetch events:", error);
+    }
+    return events
+}
+
+export async function createEvent(eventDetails: any) {
+    const testEvent = {
+        "address": "Masthuggstorget",
+        "book": "",
+        "date": "2024-02-20T00:00:00", // Example date in the correct format
+        "host": "123456789", // Ensure this is an existing Company ID
+        "longDescription": "aa",
+        "shortDescription": "bb",
+        "title": "Event Title",
+        "img": "hejj",
+        "latitude": 57.698558,
+        "longitude": 12
+    }
+
+    axios.post(`http://localhost:8000/api/events/create_event/`, testEvent)
+        .then((response) => {
+            console.log('Success:', response.data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
