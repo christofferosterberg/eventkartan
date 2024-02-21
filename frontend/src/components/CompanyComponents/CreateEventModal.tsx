@@ -47,6 +47,7 @@ function CreateEventModal({ company, showModal, handleCloseModal, handleSaveChan
     const handleDateChange = (event: any) => {
         setDate(event.target.value);
     };
+    
 
     
 
@@ -91,9 +92,9 @@ function CreateEventModal({ company, showModal, handleCloseModal, handleSaveChan
                                 className="form-control"
                                 placeholder="Fullständig beskrivning"></textarea>
                         </div>
-                        <div className="form-floating mt-2 col-6">
+                        <div className="mt-2 col-6">
                             <AddressInput handleFormChange={handleFormChange} address={company.address}></AddressInput>
-                            <label className="col-form-label mx-2">Adress</label>
+                            {/* <label className="col-form-label mx-2">Adress</label> */}
                         </div>
                         <div className="form-floating mt-2 col-6">
                             <input
