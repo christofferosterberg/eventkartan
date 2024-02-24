@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CompanyType } from '../../Types/CompanyType';
 import { updateCompany } from '../../firestore';
 import NewCompanyAdminModal from './NewCompanyAdminModal';
+import AddressInput from '../Misc/AddressInput';
 
 interface AdminConsoleProps {
     company: CompanyType,
@@ -15,29 +16,47 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
 
     const handleCloseModal = () => setShowModal(false);
     const handleSaveChanges = () => setShowModal(false);
+    const [billPlace, setBillPlace] = useState<any>(null)
+    const [billZip, setBillZip] = useState(company.zip)
+    const [visitPlace, setvisitPlace] = useState<any>(null)
+    const [visitZip, setVisitZip] = useState(company.zip)
 
-    function handleUpdate(event: any) {
+    function handleSubmit(event: any) {
+       
         event.preventDefault()
-        updateCompany(companyInfo).then(() => {
-            setCompany(companyInfo)
-        })
+        console.log(billPlace)
+        // console.log(billPlace)
+        // updateCompany(companyInfo).then(() => {
+        //     setCompany(companyInfo)
+        // })
     }
 
     function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
+        // console.log(event)
         setCompanyInfo(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value, // Using computed property names
         }));
     }
 
+
+    // function handleAddressChange() {
+    //     // console.log(event)
+    //     setBillPlace
+    // }
+
     function openModal() {
         setShowModal(true)
+    }
+
+    function handleZipChange(event: ChangeEvent<HTMLInputElement>): void {
+        setBillZip(event.target.value)
     }
 
     return (
         <div>
             <h2>Uppgifter</h2>
-            <form className="row g-3">
+            <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="form-floating col-md-6">
                     <input
                         type="text"
@@ -79,37 +98,45 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                     <label className="mx-2">Telefon</label>
                 </div>
                 <div className="col-md-6 form-floating">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
+                    <AddressInput
+                        label="Faktureringsadress"
                         name="address"
                         value={companyInfo.address}
-                        onChange={handleFormChange}></input>
-                    <label className="mx-2">Adress</label>
+                        setPlace={setBillPlace}
+                        setZip={setBillZip}
+                    />
                 </div>
-                <div className="col-md-4 form-floating">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder=""
-                        name="city"
-                        value={companyInfo.city}
-                        onChange={handleFormChange}></input>
-                    <label className="mx-2">Stad</label>
-                </div>
-                <div className="col-md-2 form-floating">
+                <div className="col-md-6 form-floating">
                     <input
                         type="text"
                         className="form-control"
                         placeholder=""
                         name="zip"
-                        value={companyInfo.zip}
-                        onChange={handleFormChange}></input>
-                    <label className="mx-2">Postnummer</label>
+                        value={billZip}
+                        onChange={handleZipChange}></input>
+                    <label className="mx-2">Postnummer faktureringsadress</label>
+                </div>
+                <div className="col-md-6 form-floating">
+                    <AddressInput
+                        label="Besöksadress"
+                        name="address"
+                        value={companyInfo.address}
+                        setPlace={setvisitPlace}
+                        setZip={setVisitZip}
+                    />
+                </div>
+                <div className="col-md-6 form-floating">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder=""
+                        name="zip"
+                        value={visitZip}
+                        onChange={handleZipChange}></input>
+                    <label className="mx-2">Postnummer besöksadress</label>
                 </div>
                 <div className="col-12">
-                    <button type="submit" onClick={handleUpdate} className="">Uppdatera info</button>
+                    <button type="submit" className="">Uppdatera info</button>
                 </div>
                 <div className='col-md-12 d-flex'>
                     <h5>Administratörer</h5>
