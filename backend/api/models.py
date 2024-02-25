@@ -32,14 +32,22 @@ class EmailAddress(models.Model):
 
 class Company(models.Model):
     admins = models.ManyToManyField(EmailAddress, related_name='companies')
-    address = models.CharField(max_length=40)
-    city = models.CharField(max_length=30)
-    contactEmail = models.EmailField(unique=False)
-    description = models.TextField(blank=True, null=True, max_length=200)
+    billAddress = models.CharField(max_length=40, blank=True)
+    billCity = models.CharField(max_length=40, blank=True)
+    billZip = models.CharField(max_length=40, blank=True)
+    billCountry = models.CharField(max_length=40, blank=True)
+    visitAddress = models.CharField(max_length=40, blank=True)
+    visitCity = models.CharField(max_length=40, blank=True)
+    visitZip = models.CharField(max_length=40, blank=True)
+    visitCountry = models.CharField(max_length=40, blank=True)
+    visitLatitude = models.FloatField(blank=True, null=True)
+    visitLongitude = models.FloatField(blank=True, null=True)
+    contactEmail = models.EmailField(unique=False, blank=True)
+    description = models.TextField(blank=True, max_length=200)
     name = models.CharField(max_length=50)
     orgNumber = models.CharField(max_length=30, primary_key=True)
-    phone = models.CharField(max_length=50)
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True, related_name='companies')
+    phone = models.CharField(max_length=50, blank=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True, blank=True, related_name='companies')
     zip = models.CharField(max_length=5)
 
     def __str__(self):
@@ -54,7 +62,7 @@ class Event(models.Model):
     img = models.TextField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    longDesciption = models.TextField()
+    longDescription = models.TextField()
     shortDescription = models.TextField()
     title = models.CharField(max_length=200)
 

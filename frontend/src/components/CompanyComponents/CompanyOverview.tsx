@@ -2,7 +2,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CompanyType } from '../../Types/CompanyType';
 import { updateCompany } from '../../firestore';
 import NewCompanyAdminModal from './NewCompanyAdminModal';
-import AddressInput from '../Misc/AddressInput';
+import AddressInput, { formatAddressField } from '../Misc/AddressInput';
+import { PlaceType } from '../Misc/PlaceType';
 
 interface AdminConsoleProps {
     company: CompanyType,
@@ -14,36 +15,42 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
     const [companyInfo, setCompanyInfo] = useState(company);
     const [showModal, setShowModal] = useState(false)
 
-    const handleCloseModal = () => setShowModal(false);
-    const handleSaveChanges = () => setShowModal(false);
-    const [billPlace, setBillPlace] = useState<any>(null)
-    const [billZip, setBillZip] = useState(company.zip)
-    const [visitPlace, setvisitPlace] = useState<any>(null)
-    const [visitZip, setVisitZip] = useState(company.zip)
+    const handleCloseModal = () => setShowModal(false)
+    const handleSaveChanges = () => setShowModal(false)
+    const [billPlace, setBillPlace] = useState<PlaceType>({
+        address: company.billAddress,
+        city: company.billCity,
+        country: company.billCountry,
+        zip: company.billZip,
+        latitude: company.visitLatitude,
+        longitude: company.visitLongitude
+    })
+    const [billZip, setBillZip] = useState(company.billZip)
+    const [visitPlace, setvisitPlace] = useState<PlaceType>({
+        address: company.visitAddress,
+        city: company.visitCity,
+        country: company.visitCountry,
+        zip: company.visitZip,
+        latitude: company.visitLatitude,
+        longitude: company.visitLongitude
+    })
+    const [visitZip, setVisitZip] = useState(company.visitZip)
 
     function handleSubmit(event: any) {
-       
         event.preventDefault()
-        console.log(billPlace)
         // console.log(billPlace)
-        // updateCompany(companyInfo).then(() => {
-        //     setCompany(companyInfo)
-        // })
+        // console.log(visitPlace)
+        updateCompany(companyInfo, billPlace, visitPlace).then(() => {
+            setCompany(companyInfo)
+        })
     }
 
     function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
-        // console.log(event)
         setCompanyInfo(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value, // Using computed property names
         }));
     }
-
-
-    // function handleAddressChange() {
-    //     // console.log(event)
-    //     setBillPlace
-    // }
 
     function openModal() {
         setShowModal(true)
@@ -101,7 +108,7 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                     <AddressInput
                         label="Faktureringsadress"
                         name="address"
-                        value={companyInfo.address}
+                        value={formatAddressField(companyInfo.billAddress, companyInfo.billCity, companyInfo.billCountry)}
                         setPlace={setBillPlace}
                         setZip={setBillZip}
                     />
@@ -120,7 +127,7 @@ function AdminConsole({ company, setCompany }: AdminConsoleProps) {
                     <AddressInput
                         label="Besöksadress"
                         name="address"
-                        value={companyInfo.address}
+                        value={formatAddressField(companyInfo.visitAddress, companyInfo.visitCity, companyInfo.visitCountry)}
                         setPlace={setvisitPlace}
                         setZip={setVisitZip}
                     />

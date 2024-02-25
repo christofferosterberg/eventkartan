@@ -21,6 +21,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
 
 def get_companies_by_user_email(request, user_email):
+    print(user_email)
     email_addresses = EmailAddress.objects.filter(email=user_email)
     
     companies = []
@@ -37,11 +38,20 @@ def get_companies_by_user_email(request, user_email):
 @require_http_methods(["POST"])  # Only allow POST requests for updates
 def update_company(request, org_number):
     try:
+        print("start")
         data = json.loads(request.body)
         company = Company.objects.get(pk=org_number)
-        
-        company.address = data.get('address', company.address)
-        company.city = data.get('city', company.city)
+        print(company.orgNumber)
+        company.billAddress = data.get('billAddress', company.billAddress)
+        company.billCity = data.get('billCity', company.billCity)
+        company.billZip = data.get('billZip', company.billZip)
+        company.billCountry = data.get('billCountry', company.billCountry)
+        company.visitAddress = data.get('visitAddress', company.visitAddress)
+        company.visitCity = data.get('visitCity', company.visitCity)
+        company.visitZip = data.get('visitZip', company.visitZip)
+        company.visitCountry = data.get('visitCountry', company.visitCountry)
+        company.visitLatitude = data.get('visitLatitude', company.visitLatitude)
+        company.visitLongitude = data.get('visitLongitude', company.visitLongitude)
         company.contactEmail = data.get('contactEmail', company.contactEmail)
         company.description = data.get('description', company.description)
         company.name = data.get('name', company.name)
@@ -84,6 +94,7 @@ def create_event(request):
         data = json.loads(request.body)
         try:
             host_company = Company.objects.get(orgNumber=data.get('host'))
+            print(host_company.orgNumber)
         except Company.DoesNotExist:
             return HttpResponseBadRequest("Company not found.")
         
@@ -92,10 +103,10 @@ def create_event(request):
             book=data.get('book'),
             date=data.get('date'),
             host=host_company,  # Use the company instance created earlier
-            img=data.get('img'),
+            # img=data.get('img'),
             latitude=data.get('latitude'),
-            longitude=-data.get('longitude'),
-            longDesciption=data.get('longDescription'),
+            longitude=data.get('longitude'),
+            longDescription=data.get('longDescription'),
             shortDescription=data.get('shortDescription'),
             title=data.get('title')
         )

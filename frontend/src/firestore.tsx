@@ -4,6 +4,7 @@ import { CompanyType, company } from "./Types/CompanyType";
 import { SubscriptionType, subscription } from "./Types/SubscriptionType";
 import axios from "axios";
 import { EventType, makeEvent } from "./Types/EventType";
+import { PlaceType } from "./components/Misc/PlaceType";
 
 
 export async function fetchCompanies(userEmail: string) {
@@ -46,15 +47,22 @@ export async function createCompany(orgNumber: string, uid: string, userEmail: s
     });
 }
 
-export async function updateCompany(company: CompanyType) {
+export async function updateCompany(company: CompanyType, bill: PlaceType, visit: PlaceType) {
     const updatedCompany = {
         name: company.name,
         description: company.description,
         contactEmail: company.contactEmail,
-        address: company.address,
-        city: company.city,
-        zip: company.zip,
-        phone: company.phone
+        phone: company.phone,
+        billAddress: bill.address,
+        billCity: bill.city,
+        billZip: bill.zip,
+        billCountry: bill.country,
+        visitAddress: visit.address,
+        visitCity: visit.city,
+        visitZip: visit.zip,
+        visitCountry: visit.country,
+        visitLatitude: visit.latitude,
+        visitLongitude: visit.longitude
     };
 
     axios.post(`http://localhost:8000/api/company/${company.orgNumber}/update/`, updatedCompany)
@@ -113,7 +121,7 @@ export async function fetchEvents() {
         console.log(data)
         if (data.length > 0) {
             data.forEach((fetchedEvent: any) => {
-                console.log(fetchedEvent)
+                // console.log(fetchedEvent)
                 events.push(makeEvent(fetchedEvent))
             });
             return events
@@ -126,23 +134,28 @@ export async function fetchEvents() {
 
 export async function createEvent(eventDetails: any) {
     const testEvent = {
-        "address": "Masthuggstorget",
-        "book": "",
-        "date": "2024-02-20T00:00:00", // Example date in the correct format
-        "host": "123456789", // Ensure this is an existing Company ID
-        "longDescription": "aa",
-        "shortDescription": "bb",
-        "title": "Event Title",
-        "img": "hejj",
-        "latitude": 57.698558,
-        "longitude": 12
+        "address": eventDetails.address,
+        "book": eventDetails.book,
+        "date": dateFormat(eventDetails.date),
+        "host": eventDetails.host,
+        // img: string,
+        "latitude": eventDetails.latitude,
+        "longitude": eventDetails.longitude,
+        "longDescription": eventDetails.longDescription,
+        "shortDescription": eventDetails.shortDescription,
+        "title": eventDetails.title
     }
 
-    axios.post(`http://localhost:8000/api/events/create_event/`, testEvent)
+    console.log(testEvent)
+    axios.post(`http://localhost:8000/api/events/create_event`, testEvent)
         .then((response) => {
             console.log('Success:', response.data);
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+}
+
+function dateFormat(date: string) {
+    return date.replace("T", " ");
 }

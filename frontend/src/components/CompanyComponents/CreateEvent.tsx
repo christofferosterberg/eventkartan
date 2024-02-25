@@ -1,7 +1,8 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { CompanyType, company } from '../../Types/CompanyType'
-import AddressInput from '../Misc/AddressInput';
+import AddressInput, { formatAddressField } from '../Misc/AddressInput';
 import { createEvent } from '../../firestore';
+import { PlaceType } from '../Misc/PlaceType';
 
 interface CreateEventProps {
     company: CompanyType;
@@ -10,11 +11,11 @@ interface CreateEventProps {
 interface FormValues {
     address: string;
     book: string,
-    date: Date | null,
+    date: string,
     host: string,
     // img: string,
-    // latitude: number,
-    // longitude: number
+    latitude: number,
+    longitude: number
     longDescription: string;
     shortDescription: string;
     title: string
@@ -22,26 +23,62 @@ interface FormValues {
 
 function CreateEvent({ company }: CreateEventProps) {
     const [formValues, setFormValues] = useState<FormValues>({
-        address: company.address,
+        address: formatAddressField(company.visitAddress, company.visitCity, company.visitCountry),
         book: '',
-        date: null,
+        date: '',
         host: company.orgNumber,
         longDescription: '',
         shortDescription: '',
-        title: ''
+        title: '',
+        latitude: company.visitLatitude,
+        longitude: company.visitLongitude
     })
+    const [place, setPlace] = useState<PlaceType>({
+        address: company.visitAddress,
+        city: company.visitCity,
+        country: company.visitCountry,
+        zip: company.visitZip,
+        latitude: company.visitLatitude,
+        longitude: company.visitLongitude
+    })
+
     const [date, setDate] = useState('');
     function handleSubmit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault()
+        // console.log(formValues)
         createEvent(formValues)
     }
     function handleFormChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-
+        setFormValues(prevState => ({
+            ...prevState,
+            [event.target.name]: event.target.value, // Using computed property names
+        }));
     }
 
     const handleDateChange = (event: any) => {
         setDate(event.target.value);
     };
+
+    useEffect(() => {
+        if (place) {
+            setFormValues(prevState => ({
+                ...prevState,
+                ['address']: place.address,
+                ['latitude']: place.latitude,
+                ['longitude']: place.longitude,
+            }));
+        }
+    }, [place])
+
+    useEffect(() => {
+        if (date) {
+            // console.log(date)
+            setFormValues(prevState => ({
+                ...prevState,
+                ['date']: date
+            }));
+        }
+    }, [date])
 
     return (
         <div>
@@ -82,7 +119,13 @@ function CreateEvent({ company }: CreateEventProps) {
                             placeholder="Fullständig beskrivning"></textarea>
                     </div>
                     <div className="mt-2 col-6">
-                        <AddressInput handleFormChange={handleFormChange} address={company.address}></AddressInput>
+                        <AddressInput
+                            label="Besöksadress"
+                            name="address"
+                            value={formValues.address}
+                            setPlace={setPlace}
+                            setZip={undefined}
+                        />
                         {/* <label className="col-form-label mx-2">Adress</label> */}
                     </div>
                     <div className="form-floating mt-2 col-6">
@@ -98,10 +141,10 @@ function CreateEvent({ company }: CreateEventProps) {
                         <label className="col-form-label mx-2">Bokningslänk</label>
                     </div>
                     <div className='mt-2'>
-                        <label htmlFor="dateInput">Välj ett datum:</label>
+                        <label htmlFor="dateInput">Välj datum och tid:</label>
                         <input
                             className='mx-2'
-                            type="date"
+                            type="datetime-local"
                             id="dateInput"
                             value={date}
                             onChange={handleDateChange}

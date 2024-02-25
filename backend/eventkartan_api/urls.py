@@ -27,9 +27,9 @@ router.register(r'subscriptions', views.SubscriptionOptionViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/events/create_event/', views.create_event, name='create_event'),
+    path('api/events/create_event', views.create_event, name='create_event'),
     path('api/events/', views.get_events, name='get_events'),
     path('api/get_companies_by_user_email/<str:user_email>/', views.get_companies_by_user_email, name='get_companies_by_user_email'),
-    path('api/company/<int:org_number>/update/', views.update_company, name='update_company'),
+    path('api/company/<str:org_number>/update/', views.update_company, name='update_company'),
     path('api/subscription_options/', views.get_subscription_options, name='get_subscription_options'),
 ]

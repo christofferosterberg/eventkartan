@@ -63,14 +63,17 @@ function Map({ events }: MapProps) {
             onLoad={onLoad}
             onUnmount={onUnmount}
         >
-            {/* {events.map((event) => (
+            {events.map((event) => (
                 <Marker
-                    // key={marker.id}
-                    position={event.position}
+                    key={event.id}
+                    position={{
+                        lat: event.latitude,
+                        lng: event.longitude
+                    }}
                     onClick={() => handleMarkerClick(event)}
                 // Add any other Marker options as needed
                 />
-            ))} */}
+            ))}
             {selectedMarker && (
                 <InfoWindow
                     position={selectedMarker.position}

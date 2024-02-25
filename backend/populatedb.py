@@ -15,14 +15,19 @@ def populate():
     email_3.save()
 
     company = Company(
-        address='Masthuggstorget',
-        city='Göteborg',
+        billAddress='Masthuggstorget',
+        billCity='Göteborg',
+        billZip='413 27',
+        billCountry='Sverige',
+        visitAddress='Andra Långgatan 20',
+        visitCity='Göteborg',
+        visitZip='413 27',
+        visitCountry='Sverige',
         contactEmail='info@hops.se',
         name='Hops',
-        orgNumber='123456789',
+        orgNumber='551111-1111',
         phone='123-456-7890',
         description='En mysig bar längst upp på Andra Långgatan',
-        zip='12345'
     )
     company.save()
     company.admins.add(email_1)

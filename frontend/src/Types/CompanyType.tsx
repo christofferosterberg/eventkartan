@@ -3,12 +3,14 @@ interface CompanyAdmin {
 }
 
 interface Subscription {
+    id: number,
     eventsLeft: number,
     price: number,
     recurring: true,
     renewDate: Date,
     subscribeDate: Date,
     type: number
+    subscriptionOption: number
 }
 
 export interface CompanyType {
@@ -16,9 +18,16 @@ export interface CompanyType {
     contactEmail: string;
     description: string;
     name: string;
-    address: string
-    city: string;
-    zip: string;
+    billAddress: string
+    billCity: string
+    billZip: string
+    billCountry: string
+    visitAddress: string
+    visitCity: string
+    visitZip: string
+    visitCountry: string
+    visitLatitude: number
+    visitLongitude: number
     phone: string;
     admins: CompanyAdmin[];
     subscription: Subscription;
@@ -29,25 +38,34 @@ export function company(fetchedCompany: any) {
         orgNumber: fetchedCompany.orgNumber,
         contactEmail: fetchedCompany.contactEmail,
         name: fetchedCompany.name,
-        address: fetchedCompany.address,
-        city: fetchedCompany.city,
         phone: fetchedCompany.phone,
-        zip: fetchedCompany.zip,
         description: fetchedCompany.description,
         admins: fetchedCompany.admins,
-        subscription: subscription(fetchedCompany.subscription)
+        subscription: subscription(fetchedCompany.subscription),
+        billAddress: fetchedCompany.billAddress,
+        billCity: fetchedCompany.billCity,
+        billZip: fetchedCompany.billZip,
+        visitAddress: fetchedCompany.visitAddress,
+        visitCity: fetchedCompany.visitCity,
+        visitZip: fetchedCompany.visitZip,
+        billCountry: fetchedCompany.billCountry,
+        visitCountry: fetchedCompany.visitCountry,
+        visitLatitude: fetchedCompany.visitLatitude,
+        visitLongitude: fetchedCompany.visitLongitude
     }
     return company
 }
 
-function subscription(fetchedSubscription:any) {
+export function subscription(fetchedSubscription:any) {
     const subscription:Subscription = {
         eventsLeft: fetchedSubscription.eventsLeft,
         price: fetchedSubscription.price,
         recurring: fetchedSubscription.recurring,
         renewDate: fetchedSubscription.renewDate,
         subscribeDate: fetchedSubscription.subscribeDate,
-        type: fetchedSubscription.type
+        type: fetchedSubscription.type,
+        id: fetchedSubscription.id,
+        subscriptionOption: fetchedSubscription.subscriptionOption
     }
     return subscription
 }

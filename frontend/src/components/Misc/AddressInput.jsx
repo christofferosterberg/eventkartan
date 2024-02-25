@@ -2,12 +2,6 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Autocomplete from "react-google-autocomplete";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
-
-// interface AddressInputProps {
-//   address: string,
-//   handleFormChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
-// }
-
 function AddressInput({ label, name, value, setPlace, setZip }) {
 
   const [addressValue, setAddressValue] = useState(value)
@@ -31,11 +25,15 @@ function AddressInput({ label, name, value, setPlace, setZip }) {
     if (!place.geometry) {
       console.log("inget valt")
     } else {
-      // console.log(place)
+      console.log(place)
       let address = ''
       let city = ''
       let country = ''
       let zip = ''
+      // console.log(place.geometry.location.lat())
+      // console.log(place.geometry.location.lng())
+      let latitude = place.geometry.location.lat()
+      let longitude = place.geometry.location.lng()
       if (place.address_components.length == 5) {
         address = place.address_components[0].short_name
         city = place.address_components[1].short_name
@@ -46,17 +44,28 @@ function AddressInput({ label, name, value, setPlace, setZip }) {
         city = place.address_components[2].short_name
         country = place.address_components[4].long_name
         zip = place.address_components[5].short_name
+      } else if (place.address_components.length == 7) {
+        address = place.address_components[1].short_name + ' ' + place.address_components[0].short_name
+        city = place.address_components[3].short_name
+        country = place.address_components[5].long_name
+        zip = place.address_components[6].short_name
       }
 
       // console.log(place.address_components)
-      setAddressValue(address + ', ' + city + ', ' + country)
+      setAddressValue(formatAddressField(address, city, country))
+      console.log(latitude)
       setPlace({
         address,
         city,
         country,
-        zip
+        zip,
+        latitude,
+        longitude
       })
-      setZip(zip)
+      if (setZip) {
+        setZip(zip)
+      }
+      
     }
   }
 
@@ -81,3 +90,7 @@ function AddressInput({ label, name, value, setPlace, setZip }) {
 
 
 export default AddressInput
+
+export function formatAddressField(address, city, country) {
+  return address + ', ' + city + ', ' + country
+}

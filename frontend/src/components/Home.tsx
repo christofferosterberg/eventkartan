@@ -6,68 +6,73 @@ import { EventType } from '../Types/EventType';
 import Map from './Map';
 import { fetchEvents } from '../firestore';
 
-// const events: EventType[] = [
+// const fetchedEvents: EventType[] = [
 //     {
+//         id: 1,
 //         title: "Musikquiz på Hops",
-//         time: "Tid: 19:00, onsdag 24:e januari",
-//         place: "Plats: Hops, Andra Långgatan",
+//         date: "Tid: 19:00, onsdag 24:e januari",
+//         address: "Plats: Hops, Andra Långgatan",
 //         shortDescription: "Välkommen till ett roligt event!",
+//         longDescription: "hej",
 //         book: "https://www.hopsbar.se",
-//         img: "./pub-exempel.jpg",
-//         position: {
-//             lat: 57.698558,
-//             lng: 11.9436
-//         }
+//         // img: "./pub-exempel.jpg",
+//         latitude: 57.69896239999999,
+//         longitude: 11.9476028,
+//         host: "111"
+//         // position: {
+//         //     lat: 57.698558,
+//         //     lng: 11.9436
+//         // }
 //     },
-//     // Add more events here
-//     {
-//         title: "VM-visning på Olearys",
-//         time: "Tid: 19:00, onsdag 24:e januari",
-//         place: "Plats: Hops, Andra Långgatan",
-//         shortDescription: "Välkommen till ett roligt event på Olearys",
-//         book: "",
-//         img: "./pub-exempel.jpg",
-//         position: {
-//             lat: 57.70716,
-//             lng: 11.96679
-//         }
-//     },
-//     {
-//         title: "Livemusik på Viva",
-//         time: "Tid: 19:00, onsdag 24:e januari",
-//         place: "Plats: Hops, Andra Långgatan",
-//         shortDescription: "Välkommen till ett roligt event på Viva!",
-//         book: "",
-//         img: "./pub-exempel.jpg",
-//         position: {
-//             lat: 57.700192,
-//             lng: 11.968429
-//         }
-//     },
-//     {
-//         title: "Vinprovning på Rubinen",
-//         time: "Tid: 19:00, onsdag 24:e januari",
-//         place: "Plats: Hops, Andra Långgatan",
-//         shortDescription: "Välkommen till ett roligt event på Rubinen!",
-//         book: "",
-//         img: "./pub-exempel.jpg",
-//         position: {
-//             lat: 57.6997975,
-//             lng: 11.9762968
-//         }
-//     },
-//     {
-//         title: "Allmänquiz på Bryggeriet",
-//         time: "Tid: 19:00, onsdag 24:e januari",
-//         place: "Plats: Hops, Andra Långgatan",
-//         shortDescription: "Välkommen till ett roligt event på Hops!",
-//         book: "",
-//         img: "./pub-exempel.jpg",
-//         position: {
-//             lat: 57.7013562,
-//             lng: 11.9730546
-//         }
-//     }
+    // Add more events here
+    // {
+    //     title: "VM-visning på Olearys",
+    //     time: "Tid: 19:00, onsdag 24:e januari",
+    //     place: "Plats: Hops, Andra Långgatan",
+    //     shortDescription: "Välkommen till ett roligt event på Olearys",
+    //     book: "",
+    //     img: "./pub-exempel.jpg",
+    //     position: {
+    //         lat: 57.70716,
+    //         lng: 11.96679
+    //     }
+    // },
+    // {
+    //     title: "Livemusik på Viva",
+    //     time: "Tid: 19:00, onsdag 24:e januari",
+    //     place: "Plats: Hops, Andra Långgatan",
+    //     shortDescription: "Välkommen till ett roligt event på Viva!",
+    //     book: "",
+    //     img: "./pub-exempel.jpg",
+    //     position: {
+    //         lat: 57.700192,
+    //         lng: 11.968429
+    //     }
+    // },
+    // {
+    //     title: "Vinprovning på Rubinen",
+    //     time: "Tid: 19:00, onsdag 24:e januari",
+    //     place: "Plats: Hops, Andra Långgatan",
+    //     shortDescription: "Välkommen till ett roligt event på Rubinen!",
+    //     book: "",
+    //     img: "./pub-exempel.jpg",
+    //     position: {
+    //         lat: 57.6997975,
+    //         lng: 11.9762968
+    //     }
+    // },
+    // {
+    //     title: "Allmänquiz på Bryggeriet",
+    //     time: "Tid: 19:00, onsdag 24:e januari",
+    //     place: "Plats: Hops, Andra Långgatan",
+    //     shortDescription: "Välkommen till ett roligt event på Hops!",
+    //     book: "",
+    //     img: "./pub-exempel.jpg",
+    //     position: {
+    //         lat: 57.7013562,
+    //         lng: 11.9730546
+    //     }
+    // }
 // ];
 
 // const displayedEvents: EventType[] = events
@@ -90,6 +95,7 @@ function Home() {
     useEffect(() => {
         if (!events) {
             fetchEvents().then((fetchedEvents) => {
+                console.log(fetchedEvents)
                 setEvents(fetchedEvents)
                 setIsLoading(false)
 

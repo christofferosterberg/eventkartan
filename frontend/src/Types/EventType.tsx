@@ -1,14 +1,15 @@
 export interface EventType {
+    id: number
     address: string
     book: string
-    date: Date
+    date: string
     host: string
-    id: number
-    img: string
+    // img: string
     latitude: number
     longitude: number
     longDescription: string
     shortDescription: string
+    title: string
 }
 
 export function makeEvent(data:any) {
@@ -18,11 +19,12 @@ export function makeEvent(data:any) {
         date: data.date,
         host: data.host,
         id: data.id,
-        img: data.img,
+        // img: data.img,
         latitude: data.latitude,
         longitude: data.longitude,
         longDescription: data.longDescription,
-        shortDescription: data.shortDescription
+        shortDescription: data.shortDescription,
+        title: data.title
     }
     return event
 }
