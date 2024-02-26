@@ -118,7 +118,7 @@ export async function fetchEvents() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         if (data.length > 0) {
             data.forEach((fetchedEvent: any) => {
                 // console.log(fetchedEvent)

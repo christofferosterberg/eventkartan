@@ -5,7 +5,7 @@ import {
     MarkerClusterer,
     InfoWindow,
 } from '@react-google-maps/api';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EventType } from '../Types/EventType';
 import React from 'react';
 
@@ -26,7 +26,17 @@ function HomeMap({ events }: HomeMapProps) {
         clickableIcons: false
     }), [])
 
-    const onLoad = useCallback((map:any) => (mapRef.current = map), [])
+    const onLoad = useCallback((map: any) => {
+        mapRef.current = map
+        setLoaded(true)
+    }, [])
+
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: "AIzaSyBLUdn5XTY8hn64Wr2fTw6UwaL-fdGcrj4",
+        // libraries: ['places']
+    })
+
+    const [loaded, setLoaded] = useState(false)
 
 
     // const markers = [
@@ -36,12 +46,9 @@ function HomeMap({ events }: HomeMapProps) {
 
     // const [markers, setMarkers] = useState<EventType | null>(null);
 
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBLUdn5XTY8hn64Wr2fTw6UwaL-fdGcrj4",
-        libraries: ['places']
-    })
 
-    const [map, setMap] = useState(null)
+
+    // const [map, setMap] = useState(null)
 
     // const onLoad = useCallback(function callback(map: any) {
     //     // This is just an example of getting and using the map instance!!! don't just blindly copy!
@@ -51,9 +58,9 @@ function HomeMap({ events }: HomeMapProps) {
     //     setMap(map)
     // }, [])
 
-    const onUnmount = useCallback(function callback() {
-        setMap(null)
-    }, [])
+    // const onUnmount = useCallback(function callback() {
+    //     setMap(null)
+    // }, [])
 
     const [selectedMarker, setSelectedMarker] = useState<any>(null);
 
@@ -65,11 +72,15 @@ function HomeMap({ events }: HomeMapProps) {
         setSelectedMarker(null);
     };
 
+    useEffect(() => {
+        console.log(events)
+    }, [events])
+
     if (!isLoaded) {
         return <div>Loading ...</div>;
     }
     return isLoaded ? (
-        <div className='container'>
+        <div className='outer-map-container'>
             {/* <div className='controls'></div> */}
             <div className='map'>
                 <GoogleMap
@@ -79,40 +90,18 @@ function HomeMap({ events }: HomeMapProps) {
                     mapContainerClassName='map-container'
                     onLoad={onLoad}
                 >
+                    {/* <Marker position={{ lat: 57.708870, lng: 11.974560 }} /> */}
+
+                    {(events?.length ?? 0) > 0 && (
+                        events.map((event) => (
+                            <Marker position={{ lat: event.latitude, lng: event.longitude}} />
+
+                        ))
+                    )}
+
                 </GoogleMap>
             </div>
         </div>
-        // <GoogleMap
-        //     mapContainerStyle={containerStyle}
-        //     center={center}
-        //     zoom={13}
-        //     onLoad={onLoad}
-        //     onUnmount={onUnmount}
-        // >
-        //     {events.map((event) => (
-        //         <Marker
-        //             key={event.id}
-        //             position={{
-        //                 lat: event.latitude,
-        //                 lng: event.longitude
-        //             }}
-        //             onClick={() => handleMarkerClick(event)}
-        //         // Add any other Marker options as needed
-        //         />
-        //     ))}
-        //     {selectedMarker && (
-        //         <InfoWindow
-        //             position={selectedMarker.position}
-        //             onCloseClick={handleInfoWindowClose}
-        //         >
-        //             <div>
-        //                 <h3>{selectedMarker.title}</h3>
-        //             </div>
-        //         </InfoWindow>
-        //     )}
-        //     { /* Child components, such as markers, info windows, etc. */}
-        //     <></>
-        // </GoogleMap>
     ) : <></>
 }
 

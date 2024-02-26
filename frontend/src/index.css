@@ -112,7 +112,7 @@ button:focus-visible {
   background-color: var(--light-grey);
 }
 
-.container {
+.outer-map-container {
   height: 100vh;
 }
 
