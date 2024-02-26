@@ -3,8 +3,8 @@ import ListEvents from './ListEvents';
 import { useEffect, useState } from 'react';
 import EventModal from './EventModal';
 import { EventType } from '../Types/EventType';
-import Map from './Map';
 import { fetchEvents } from '../firestore';
+import HomeMap from './HomeMap';
 
 // const fetchedEvents: EventType[] = [
 //     {
@@ -115,12 +115,12 @@ function Home() {
                     <h1 className='text-center'>Välkommen till Ute-Livet!</h1>
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm">
+                            <div className="col-4">
                                 <Search></Search>
                                 <ListEvents events={events} onEventClick={handleNewActiveEvent}></ListEvents>
                             </div>
-                            <div className="col-lg">
-                                <Map events={events}></Map>
+                            <div className="col-8">
+                                <HomeMap events={events}></HomeMap>
                             </div>
                         </div>
                     </div>

@@ -32,6 +32,10 @@ function Search() {
                 </div>
                 <div className="form-check form-check-inline">
                     <input className="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4"></input>
+                    <label className="form-check-label" htmlFor="inlineCheckbox4">Standup</label>
+                </div>
+                <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4"></input>
                     <label className="form-check-label" htmlFor="inlineCheckbox4">Övrigt</label>
                 </div>
             </div>
