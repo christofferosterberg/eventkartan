@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { EventType } from '../Types/EventType';
 import React from 'react';
+import { APIProvider, AdvancedMarker, Map } from '@vis.gl/react-google-maps';
 
 interface HomeMapProps {
     events: EventType[],
@@ -22,21 +23,21 @@ function HomeMap({ events }: HomeMapProps) {
     const mapRef = useRef<GoogleMap>()
     const center = useMemo<LatLngLiteral>(() => ({ lat: 57.708870, lng: 11.974560, }), []);
     const options = useMemo<MapOptions>(() => ({
-        disableDefaultUI: true,
-        clickableIcons: false
+        disableDefaultUI: false,
+        clickableIcons: false,
     }), [])
 
-    const onLoad = useCallback((map: any) => {
-        mapRef.current = map
-        setLoaded(true)
-    }, [])
+    // const onLoad = useCallback((map: any) => {
+    //     mapRef.current = map
+    //     setLoaded(true)
+    // }, [])
 
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBLUdn5XTY8hn64Wr2fTw6UwaL-fdGcrj4",
-        // libraries: ['places']
-    })
+    // const { isLoaded } = useLoadScript({
+    //     googleMapsApiKey: "AIzaSyBLUdn5XTY8hn64Wr2fTw6UwaL-fdGcrj4",
+    //     // libraries: ['places']
+    // })
 
-    const [loaded, setLoaded] = useState(false)
+    const [isLoaded, setLoaded] = useState(true)
 
 
     // const markers = [
@@ -72,27 +73,38 @@ function HomeMap({ events }: HomeMapProps) {
         setSelectedMarker(null);
     };
 
-    useEffect(() => {
-        console.log(events)
-    }, [events])
+    // useEffect(() => {
+    //     console.log(events)
+    // }, [events])
 
     if (!isLoaded) {
         return <div>Loading ...</div>;
     }
     return isLoaded ? (
         <div className='outer-map-container'>
+            <APIProvider apiKey="AIzaSyBLUdn5XTY8hn64Wr2fTw6UwaL-fdGcrj4">
+                <Map 
+                center={center} 
+                zoom={13} 
+                mapId={"46f0ccb2e50d127e"}
+                clickableIcons={false}
+                disableDefaultUI={true}
+                >
+                    <Markers events={events} />
+                </Map>
+            </APIProvider>
             {/* <div className='controls'></div> */}
-            <div className='map'>
+            {/* <div className='map'>
                 <GoogleMap
                     zoom={13}
                     center={center}
                     options={options}
                     mapContainerClassName='map-container'
                     onLoad={onLoad}
-                >
-                    {/* <Marker position={{ lat: 57.708870, lng: 11.974560 }} /> */}
+                > */}
+            {/* <Marker position={{ lat: 57.708870, lng: 11.974560 }} /> */}
 
-                    {(events?.length ?? 0) > 0 && (
+            {/* {(events?.length ?? 0) > 0 && (
                         events.map((event) => (
                             <Marker position={{ lat: event.latitude, lng: event.longitude}} />
 
@@ -100,9 +112,19 @@ function HomeMap({ events }: HomeMapProps) {
                     )}
 
                 </GoogleMap>
-            </div>
+            </div> */}
         </div>
     ) : <></>
 }
 
 export default HomeMap
+
+type Props = { events: EventType[] }
+
+const Markers = ({ events }: Props) => {
+    return <>
+        {events.map((event) => (
+            <AdvancedMarker position={{ lat: event.latitude, lng: event.longitude }}key={event.id}></AdvancedMarker>
+        ))}
+    </>
+}

@@ -95,7 +95,7 @@ function Home() {
     useEffect(() => {
         if (!events) {
             fetchEvents().then((fetchedEvents) => {
-                console.log(fetchedEvents)
+                // console.log(fetchedEvents)
                 setEvents(fetchedEvents)
                 setIsLoading(false)
 
