@@ -29,22 +29,36 @@ export async function fetchCompanies(userEmail: string) {
     }
 }
 
+
+
 export async function createCompany(orgNumber: string, uid: string, userEmail: string) {
-    return setDoc(doc(db, "companies", orgNumber), {
-        address: '',
-        city: '',
-        email: '',
-        name: '',
-        phone: '',
-        zip: '',
-        admins: [{
-            adminID: uid,
-            email: userEmail,
-            role: 'Ägare'
-        }]
-    }).then((resp) => {
-        return resp
+    const email = {
+        userEmail: userEmail
+    };
+
+    axios.post(`http://localhost:8000/api/company/create/${orgNumber}/`, email)
+    .then((response) => {
+        console.log('Success:', response.data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
     });
+
+    // return setDoc(doc(db, "companies", orgNumber), {
+    //     address: '',
+    //     city: '',
+    //     email: '',
+    //     name: '',
+    //     phone: '',
+    //     zip: '',
+    //     admins: [{
+    //         adminID: uid,
+    //         email: userEmail,
+    //         role: 'Ägare'
+    //     }]
+    // }).then((resp) => {
+    //     return resp
+    // });
 }
 
 export async function updateCompany(company: CompanyType, bill: PlaceType, visit: PlaceType) {
@@ -76,11 +90,11 @@ export async function updateCompany(company: CompanyType, bill: PlaceType, visit
 
 export async function addAdmin(companyID: string, email: string) {
     // Reference to the document containing the email list
-    const companyRef = doc(db, "companies", companyID);
+    // const companyRef = doc(db, "companies", companyID);
 
-    await updateDoc(companyRef, {
-        regions: arrayUnion(email)
-    });
+    // await updateDoc(companyRef, {
+    //     regions: arrayUnion(email)
+    // });
 }
 
 export async function fetchSubscriptions() {

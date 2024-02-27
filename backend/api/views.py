@@ -65,10 +65,28 @@ def update_company(request, org_number):
     except Exception as e:
         return HttpResponseBadRequest("Error updating company: {}".format(e))
     
+@csrf_exempt
+@require_http_methods(["POST"])  # Only allow POST requests for updates
+def create_company(request, org_number):
+    try:
+        data = json.loads(request.body)
+        email = EmailAddress(data.get('userEmail'))
+        email.save()
+        company = Company(
+            orgNumber=org_number,
+        )
+        company.save()
+        company.admins.add(email)
+        company.save()
+        return JsonResponse({"message": "Company updated successfully."})
+    except Company.DoesNotExist:
+        return HttpResponseBadRequest("Company not found.")
+    except Exception as e:
+        return HttpResponseBadRequest("Error updating company: {}".format(e))
+    
 
 def get_subscription_options(request):
     subscription_options = SubscriptionOption.objects.all()
-    print(subscription_options)
     options = []
     for option in subscription_options:
         serializer = SubscriptionOptionSerializer(option)
@@ -77,9 +95,7 @@ def get_subscription_options(request):
 
 @csrf_exempt
 def get_events():
-    print("hej")
     all_events = Event.objects.all()
-    print(events)
     events = []
     for event in all_events:
         serializer = EventSerializer(event)

@@ -30,7 +30,7 @@ export interface CompanyType {
     visitLongitude: number
     phone: string;
     admins: CompanyAdmin[];
-    subscription: Subscription;
+    subscription: Subscription | null;
 }
 
 export function company(fetchedCompany: any) {
@@ -57,6 +57,9 @@ export function company(fetchedCompany: any) {
 }
 
 export function subscription(fetchedSubscription:any) {
+    if (!fetchedSubscription) {
+        return null
+    }
     const subscription:Subscription = {
         eventsLeft: fetchedSubscription.eventsLeft,
         price: fetchedSubscription.price,

@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/get_companies_by_user_email/<str:user_email>/', views.get_companies_by_user_email, name='get_companies_by_user_email'),
     path('api/company/<str:org_number>/update/', views.update_company, name='update_company'),
     path('api/subscription_options/', views.get_subscription_options, name='get_subscription_options'),
+    path('api/company/create/<str:org_number>/', views.create_company, name='create_company'),
 ]

@@ -10,10 +10,11 @@ import {
 
 interface HomeMapProps {
     events: EventType[],
+    onEventClick: (activeEvent: EventType) => void
 }
 type LatLngLiteral = google.maps.LatLngLiteral
 
-function HomeMap({ events }: HomeMapProps) {
+function HomeMap({ events, onEventClick }: HomeMapProps) {
 
     const center = useMemo<LatLngLiteral>(() => ({ lat: 57.708870, lng: 11.974560, }), []);
     // const [activeMarker, setActiveMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null)
@@ -35,6 +36,11 @@ function HomeMap({ events }: HomeMapProps) {
         console.log("get")
         setClickedEvent(event)
         setInfowindowShown(true);
+    }
+
+
+    function showMoreInfo(clickedEvent: EventType): void {
+        onEventClick(clickedEvent)
     }
 
     return (
@@ -59,8 +65,10 @@ function HomeMap({ events }: HomeMapProps) {
                     ))}
                     {infowindowShown && clickedEvent && (
                         <InfoWindow position={{lat:clickedEvent.latitude+0.001, lng: clickedEvent.longitude}} onCloseClick={closeInfoWindow}>
-                            <h2>{clickedEvent.title}</h2>
-                            {/* <p>This is an Info Window</p> */}
+                            <h3>{clickedEvent.title}</h3>
+                            <h6>{clickedEvent.shortDescription}</h6>
+                            <h6>Datum och tid: {dateFormat(clickedEvent.date)}</h6>
+                            <button onClick={() => showMoreInfo(clickedEvent)}>Mer info</button>
                         </InfoWindow>
                     )}
                 </Map>
@@ -70,3 +78,9 @@ function HomeMap({ events }: HomeMapProps) {
 }
 
 export default HomeMap
+
+function dateFormat(date:string) {
+    let newDate = date.replace("T", " ")
+    newDate = newDate.replace("Z", " ")
+    return newDate
+}
