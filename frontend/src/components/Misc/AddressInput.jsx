@@ -34,7 +34,12 @@ function AddressInput({ label, name, value, setPlace, setZip }) {
       // console.log(place.geometry.location.lng())
       let latitude = place.geometry.location.lat()
       let longitude = place.geometry.location.lng()
-      if (place.address_components.length == 5) {
+      if (place.address_components.length == 4) {
+        address = place.address_components[0].short_name
+        city = place.address_components[1].short_name
+        country = place.address_components[3].long_name
+        zip = place.address_components[4].short_name
+      } else if (place.address_components.length == 5) {
         address = place.address_components[0].short_name
         city = place.address_components[1].short_name
         country = place.address_components[3].long_name
