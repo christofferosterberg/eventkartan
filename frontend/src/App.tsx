@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import SignUp from './components/CompanyComponents/CompanySignUp';
 import React from 'react';
 import Company from './components/CompanyComponents/Company';
+import { APIProvider, Map } from '@vis.gl/react-google-maps';
 
 function App() {
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN
@@ -23,6 +24,7 @@ function App() {
         redirect_uri: window.location.origin + '/admin'
       }}
     >
+
 
       <div className='d-flex flex-column' style={{ minHeight: '100vh' }}>
         <BrowserRouter>
@@ -54,7 +56,7 @@ function App() {
                 <ul className="nav col-md-4 justify-content-end">
                   {/* <li className="nav-item"><a href="#" className="nav-link px-2 link-light">Hem</a></li> */}
                   <Link className="nav-link px-2 link-light" to="/hem">Hem</Link>
-                <Link className="nav-link px-2 link-light" to="/foretag">För företag</Link>
+                  <Link className="nav-link px-2 link-light" to="/foretag">För företag</Link>
                   {/* <li className="nav-item"><a href="#" className="nav-link px-2 link-light">För företag</a></li> */}
                   <li className="nav-item"><a href="#" className="nav-link px-2 link-light">Priser</a></li>
                   <li className="nav-item"><a href="#" className="nav-link px-2 link-light">FAQs</a></li>
